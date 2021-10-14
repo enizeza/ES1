@@ -16,16 +16,29 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int n=1;
+		Scanner reader = new Scanner(System.in);
+		int n=0;
 		do
 		{
-			Scanner reader = new Scanner(System.in); 
-			System.out.println("1:SignIn\n2:LogIn");
+			System.out.println("0:Quit\n1:Register\n2:LogIn");
 			n = reader.nextInt();
-			System.out.println(n);
-			reader.close();
+			//System.out.println();
+			switch(n) {
+				case 0:
+					break;
+				case 1:
+					System.out.print("Insert username: ");
+					String username = reader.next();
+					System.out.print("Insert password: ");
+					String password = reader.next();
+					break;
+				case 2:
+					//operazioni di login
+					break;
+			}
 		}
 		while(n!=0);
+		reader.close();
 	}
 
 }
