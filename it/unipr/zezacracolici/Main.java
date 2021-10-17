@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -38,18 +39,58 @@ public class Main {
 				case 0:
 					break;
 				case 1:
+					boolean verification = true;
 					System.out.print("Insert username: ");
 					String username = reader.next();
 					System.out.print("Insert password: ");
 					String password = reader.next();
+					System.out.print("Confirm password: ");
+					String confpassword = reader.next();
+					int passlen = password.length();
+					do {
+						if (verification == false) {
+							System.out.print("Reinsert username: ");
+							username = reader.next();
+							System.out.print("Reinsert password: ");
+							password = reader.next();
+							System.out.print("Confirm password: ");
+							confpassword = reader.next();
+						}
+						verification = true;
+						if (passlen < 6 || passlen > 12) {
+							System.out.println("Error: password length must be between 6 and 12 characters");
+							verification = false;
+						}
+						else if (Objects.equals(password,confpassword) == false) {
+							System.out.println("Error: the 2 passwords are different");
+							verification = false;
+						}
+						try (DataInputStream fin = new DataInputStream(new BufferedInputStream(new FileInputStream(DATAFILE)))){
+							String u;
+							String[] usplitted;
+							while(true) {
+								u = fin.readUTF();
+								usplitted = u.split(",");
+								if(Objects.equals(username, usplitted[0]) == true) {
+									System.out.println("Error: username already in use");
+									verification = false;
+								}
+							}
+						}
+						catch(EOFException e) {
+						}
+						catch(IOException e) {
+							e.printStackTrace();
+						}
+					}while (verification==false);
 					String user = username+","+password+",user";
-					DataOutputStream fObj = null;
+					DataOutputStream fOut = null;
 					try {
-				        fObj = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(DATAFILE, true)));
-				        fObj.writeUTF(user);
+				        fOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(DATAFILE, true)));
+				        fOut.writeUTF(user);
 					}
 					finally {
-						fObj.close();
+						fOut.close();
 					}
 					break;
 				case 2:
