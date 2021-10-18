@@ -17,15 +17,17 @@ public class Product {
 	private int id;
 	private String name_factory;
 	private double price;
+	private int available;
 	
 	public Product() {
 		this.name_product = "";
 		this.id = 0;
 		this.name_factory = "";
 		this.price = 0.00;
+		this.available = 0;
 	}
 	
-	public Product(final String name1, final int i, final String name2, final double p) {
+	public Product(String name1, int i, String name2, double p) {
 		this.name_product = name1;
 		this.id = i;
 		this.name_factory = name2;

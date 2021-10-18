@@ -15,18 +15,15 @@ public class Person {
 	 */
 	private String username;
 	private String password;
-	private String role;
 	
 	public Person() {
 		
 		this.username = "";
 		this.password = "";
-		this.role = "";
 	}
 	
-	public Person(final String user, final String pass, final String ro) {
+	public Person(String user, String pass) {
 		this.username = user;
 		this.password = pass;
-		this.role = ro;
 	}
 }
