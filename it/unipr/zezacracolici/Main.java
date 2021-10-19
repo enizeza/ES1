@@ -130,6 +130,7 @@ public class Main {
 						menuclient = reader.nextInt();
 						switch(menuclient) {
 						case 0:
+							menu1 = 0;
 							break;
 						case 1:
 							System.out.print("Insert name product(0 if empty): ");
@@ -144,6 +145,20 @@ public class Main {
 						}
 						break;
 					case "employee":
+						int menuemployee = 0;
+						System.out.print("0:Quit\n1:Manage orders\n2:Replace sold products");
+						menuemployee = reader.nextInt();
+						switch(menuemployee) {
+						case 0:
+							menu1 = 0;
+							break;
+						case 1:
+							//manage orders
+							break;
+						case 2:
+							//product.add quantity
+							break;
+						}
 						break;
 					case "admin":
 						break;
