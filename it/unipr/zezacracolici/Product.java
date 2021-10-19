@@ -3,6 +3,12 @@
  */
 package it.unipr.zezacracolici;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +20,7 @@ public class Product {
 
 	/**
 	 * 
-	 */
+	 */	
 	private String name_product;
 	private int id;
 	private String name_factory;
@@ -57,18 +63,22 @@ public class Product {
 		return this.quantity;
 	}
 	
-	public int buyProduct(int number) {
+	public void setQuantity(int appo) {
+		this.quantity = appo;
+	}
+	
+	/*public void buyProduct(int number) {
 		if (number > this.quantity){
 			System.out.println("Troppi prodotti richiesti!!");
-			return -1;
 		}
 		else
-			return (this.quantity = this.quantity - number);
+			this.quantity = this.quantity - number;
 	}
 	
 	public void addProductQuantity(int number) {
 		this.quantity = this.quantity + number;
-	}
+		
+	}*/
 
 	/*public void addProduct(List<Product> product, Product newProduct) {
 		product.add(newProduct);

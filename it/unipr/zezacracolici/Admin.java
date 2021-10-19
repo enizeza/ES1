@@ -31,9 +31,8 @@ public class Admin extends Employee
     	
     }
     
-    public void addProduct (List<Product> product, Product newProduct) throws IOException
+    public void addProduct (Product newProduct) throws IOException
     {
-    	product.add(newProduct);
     	DataOutputStream fOut = null;
 		try {
 	        fOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(PRODUCTFILE, true)));

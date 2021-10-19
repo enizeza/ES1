@@ -20,11 +20,11 @@ public class Employee extends Client
 		super(username, password);
 	}
 	
-	public Product buyProduct(int number) {
+	/*public Product buyProduct(int number) {
 		Product product = new Product();
 		product.buyProduct(number);
 		return product;
-	}
+	}*/
 	
 	public void addProductQuantity(int number) {
 		Product product = new Product();

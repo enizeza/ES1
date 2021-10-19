@@ -43,8 +43,8 @@ public class Main {
 		Product product1 = new Product("Mac",1,"Apple",1000.00,2);
 		Product product2 = new Product("360",2,"hp",1000.00,2);
 		
-		admin.addProduct(product, product1);
-		admin.addProduct(product, product2);
+		admin.addProduct(product1);
+		admin.addProduct(product2);
 		
 		
 		for (Product product3 : product) {
@@ -141,21 +141,62 @@ public class Main {
 					switch(role) {
 					
 					case "client":
+						Client logClient = new Client(loginUsername,loginPassword);
 						int menuclient = 0;
-						System.out.print("0:Quit\n1:Search products");
+						System.out.print("0:Quit\n1:Search products\n2: buy product");
 						menuclient = reader.nextInt();
 						switch(menuclient) {
 						case 0:
 							break;
 						case 1:
+							try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
+								String strproduct;
+								String[] prodData;
+								while(true) {
+									strproduct = fproducts.readUTF();
+									prodData = strproduct.split(",");
+									Product appo = new Product(prodData[0],Integer.parseInt(prodData[1]),prodData[2],Double.parseDouble(prodData[3]),Integer.parseInt(prodData[4]));
+									product.add(appo);
+								}
+							}
+							catch(EOFException e) {
+							}
+							catch(IOException e) {
+								e.printStackTrace();
+							}
 							System.out.print("Insert name product(0 if empty): ");
 							String nameProduct = reader.next();
 							System.out.print("Insert name factory(0 if empty): ");
 							String nameFactory = reader.next();
-							System.out.print("Insert name min price(0 if empty): ");
-							float minPrice = reader.nextFloat();
-							System.out.print("Insert name max price(0 if empty): ");
-							float maxPrice = reader.nextFloat();
+							System.out.print("Insert min price(0 if empty): ");
+							double minPrice = reader.nextDouble();
+							System.out.print("Insert max price(0 if empty): ");
+							double maxPrice = reader.nextDouble(); 
+							
+							/*List<Product> productTest = new ArrayList<Product>();
+							for (Product p : product) {
+								productTest.add(p);
+								if(Objects.equals(nameProduct,"0")==false && Objects.equals(nameProduct,p.getName_product())==true) {
+									continue;
+								}
+								else
+								{
+									productTest.pop(element);
+									break
+								}
+								if(Objects.equals(nameFactory,"0")==false && Objects.equals(nameFactory,element.getName_factory())==true) {
+									System.out.println(element.getName_product());
+								}
+								if(minPrice != 0 && ) {
+									System.out.println(element.getName_product());
+								}
+								if(Objects.equals(nameProduct,"0")==false && Objects.equals(nameProduct,element.getName_product())==true) {
+									System.out.println(element.getName_product());
+								}
+						    }*/
+							break;
+						case 2:
+							logClient.buyProduct(product1, 1);
 							break;
 						}
 						break;
