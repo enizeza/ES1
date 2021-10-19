@@ -172,17 +172,16 @@ public class Main {
 							double minPrice = reader.nextDouble();
 							System.out.print("Insert max price(0 if empty): ");
 							double maxPrice = reader.nextDouble(); 
-							
-							/*List<Product> productTest = new ArrayList<Product>();
+							/*
+							List<Product> productTest = new ArrayList<Product>();
 							for (Product p : product) {
-								productTest.add(p);
-								if(Objects.equals(nameProduct,"0")==false && Objects.equals(nameProduct,p.getName_product())==true) {
+								//productTest.add(p);
+								if((Objects.equals(nameProduct,"0")==false) && (Objects.equals(nameProduct,p.getName_product())==true)) {
 									continue;
 								}
 								else
 								{
 									productTest.pop(element);
-									break
 								}
 								if(Objects.equals(nameFactory,"0")==false && Objects.equals(nameFactory,element.getName_factory())==true) {
 									System.out.println(element.getName_product());
@@ -202,10 +201,38 @@ public class Main {
 						break;
 						
 					case "employee":
+						int menuemployee = 0;
+						System.out.print("0:Quit\n1:add employee\n2:add product\n3:remove product ");
+						menuemployee = reader.nextInt();
+						switch(menuemployee) {
+						case 0:
+							break;
+						case 1:
+							break;
+						case 2:
+							break;
+						}
 						break;
 						
 					case "admin":
-						System.out.println("ciaone");
+						int menuadmin = 0;
+						System.out.print("0:Quit\n1:add employee\n2:add product\n3:remove product ");
+						menuadmin = reader.nextInt();
+						switch(menuadmin) {
+						case 0:
+							break;
+						case 1:
+							System.out.print("Insert username: ");
+							String employeeUsername = reader.next();
+							System.out.print("Insert password: ");
+							String employeePassword = reader.next();
+							admin.addEmployee(employeeUsername, employeePassword);
+							break;
+						case 2:
+							break;
+						case 3:
+							break;
+						}
 						break;
 					}
 					break;

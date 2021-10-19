@@ -25,10 +25,10 @@ public class Admin extends Employee
     public Admin() {
     }
     
-    public void addEmployee (Employee [] employee,String username, String password)
+    public void addEmployee (String username, String password) throws IOException
     {
-    	Employee employee2 = new Employee(username, password);
-    	
+    	Employee employee = new Employee(username, password);
+    	employee.registration("employee");
     }
     
     public void addProduct (Product newProduct) throws IOException

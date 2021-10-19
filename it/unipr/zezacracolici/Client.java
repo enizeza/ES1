@@ -82,7 +82,7 @@ public class Client extends Person
 			readFile();
 			for(Product element : product) {
 	        	if (element.getId() == product1.getId()) {
-	        		element.setQuantity(product1.getQuantity() - number);
+	        		element.setQuantity(product1.getQuantity() + number);
 	        	}
 	        }
 			System.out.println(product);

@@ -24,11 +24,11 @@ public class Employee extends Client
 		Product product = new Product();
 		product.buyProduct(number);
 		return product;
-	}*/
+	}
 	
 	public void addProductQuantity(int number) {
 		Product product = new Product();
 		product.addProductQuantity(number);
-	}
+	}*/
 
 }
