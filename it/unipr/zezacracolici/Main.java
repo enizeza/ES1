@@ -43,8 +43,8 @@ public class Main {
 		Product product1 = new Product("Mac",1,"Apple",1000.00,2);
 		Product product2 = new Product("360",2,"hp",1000.00,2);
 		
-		admin.addProduct(product1);
-		admin.addProduct(product2);
+		//admin.addProduct(product1);
+		//admin.addProduct(product2);
 		
 		
 		for (Product product3 : product) {

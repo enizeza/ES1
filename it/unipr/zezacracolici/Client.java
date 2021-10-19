@@ -79,12 +79,12 @@ public class Client extends Person
 			System.out.println("Troppi prodotti richiesti!!");
 		}
 		else {
-			readFile();	
-			//product1.setQuantity(product1.getQuantity() - number);
-			Product newobj = new Product(product1.getName_product(), product1.getId(), product1.getName_factory(), product1.getPrice(), product1.getQuantity() - number);
-			//product.set(product.indexOf(product1) , newobj);
-			product.add(newobj);
-			product.remove(product1);
+			readFile();
+			for(Product element : product) {
+	        	if (element.getId() == product1.getId()) {
+	        		element.setQuantity(product1.getQuantity() - number);
+	        	}
+	        }
 			System.out.println(product);
 			writeFile();
 		}	
