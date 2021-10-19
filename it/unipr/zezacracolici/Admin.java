@@ -19,7 +19,8 @@ public class Admin extends Employee
     
     public void addEmployee (String username, String password)
     {
-    	Warehouse.addEmployee(username,password);
+    	Employee employee= new Employee(username, password);
+    	
     }
     
     public void addProduct (Warehouse warehouse, Product newProduct)
