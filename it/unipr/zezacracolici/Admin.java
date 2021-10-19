@@ -3,6 +3,8 @@
  */
 package it.unipr.zezacracolici;
 
+import java.util.List;
+
 /**
  * @author enize
  * @author leocraco
@@ -17,20 +19,20 @@ public class Admin extends Employee
     public Admin() {
     }
     
-    public void addEmployee (String username, String password)
+    public void addEmployee (Employee [] employee,String username, String password)
     {
-    	Employee employee= new Employee(username, password);
+    	Employee employee2 = new Employee(username, password);
     	
     }
     
-    public void addProduct (Warehouse warehouse, Product newProduct)
+    public void addProduct (List<Product> product, Product newProduct)
     {
-        Warehouse.addProduct(this, newProduct);
+    	product.add(newProduct);
     }
 
-    public void removeProduct (Warehouse warehouse, Product deleteProduct)
+    /*public void removeProduct (Warehouse warehouse, Product deleteProduct)
     {
         Warehouse.removeProduct(this, deleteProduct);
-    }
+    }*/
 
 }
