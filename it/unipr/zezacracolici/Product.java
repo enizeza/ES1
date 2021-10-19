@@ -3,6 +3,8 @@
  */
 package it.unipr.zezacracolici;
 
+import java.util.List;
+
 /**
  * @author enize
  * @author leocraco
@@ -68,4 +70,11 @@ public class Product {
 		this.quantity = this.quantity + number;
 	}
 
+	/*public void addProduct(List<Product> product, Product newProduct) {
+		product.add(newProduct);
+	}*/
+	
+	public String toString() {
+        return getName_product() + "," + getId() + "," + getName_factory() + "," + getPrice() + "," + getQuantity();
+    }
 }
