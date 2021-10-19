@@ -26,17 +26,6 @@ import java.util.Scanner;
  */
 public class Main {
 	
-	static void wrtiteFile(String param, String file) throws IOException {
-		 DataOutputStream fOut = null;
-			try {
-		        fOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file, true)));
-		        fOut.writeUTF(param);
-			}
-			finally {
-				fOut.close();
-			}
-	}
-	
 	public static final String DATAFILE = "users.csv";
 	public static final String PRODUCTFILE = "product.csv";
 	
@@ -50,15 +39,18 @@ public class Main {
 		
 		Admin admin = new Admin("root","root");
 		List<Product> product = new ArrayList<Product>();
+		
 		Product product1 = new Product("Mac",1,"Apple",1000.00,2);
 		Product product2 = new Product("360",2,"hp",1000.00,2);
 		
 		admin.addProduct(product, product1);
 		admin.addProduct(product, product2);
 		
-		System.out.println(product.toString());
 		
-		wrtiteFile(product2.toString(),PRODUCTFILE);
+		for (Product product3 : product) {
+			System.out.println(product3.getPrice());
+	    }
+		
 		
 		do
 		{
@@ -116,16 +108,10 @@ public class Main {
 						}
 						}
 					}while (verification==false);
-					String user = username+","+password+",client";
-					DataOutputStream fOut = null;
-					try {
-				        fOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(DATAFILE, true)));
-				        fOut.writeUTF(user);
-					}
-					finally {
-						fOut.close();
-					}
+					Client client = new Client(username,password);
+					client.registration("client");
 					break;
+					
 				case 2:
 					//operazioni di login
 					boolean logfound = false;
@@ -151,8 +137,10 @@ public class Main {
 					catch(IOException e) {
 						e.printStackTrace();
 					}
+					
 					switch(role) {
-					case "user":
+					
+					case "client":
 						int menuclient = 0;
 						System.out.print("0:Quit\n1:Search products");
 						menuclient = reader.nextInt();
@@ -171,9 +159,12 @@ public class Main {
 							break;
 						}
 						break;
+						
 					case "employee":
 						break;
+						
 					case "admin":
+						System.out.println("ciaone");
 						break;
 					}
 					break;

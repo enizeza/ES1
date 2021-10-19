@@ -3,6 +3,10 @@
  */
 package it.unipr.zezacracolici;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -10,10 +14,12 @@ import java.util.List;
  * @author leocraco
  */
 public class Admin extends Employee
-{
+{	
+	public static final String PRODUCTFILE = "product.csv";
 
     public Admin(String username, String password) {
         super(username, password);
+        String user = username+","+password+",admin";
     }
 
     public Admin() {
@@ -25,14 +31,22 @@ public class Admin extends Employee
     	
     }
     
-    public void addProduct (List<Product> product, Product newProduct)
+    public void addProduct (List<Product> product, Product newProduct) throws IOException
     {
     	product.add(newProduct);
+    	DataOutputStream fOut = null;
+		try {
+	        fOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(PRODUCTFILE, true)));
+	        fOut.writeUTF(newProduct.toString());
+		}
+		finally {
+			fOut.close();
+		}
     }
 
-    /*public void removeProduct (Warehouse warehouse, Product deleteProduct)
+    public void removeProduct (Product deleteProduct)
     {
         Warehouse.removeProduct(this, deleteProduct);
-    }*/
+    }
 
 }
