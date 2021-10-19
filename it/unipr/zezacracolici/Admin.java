@@ -19,17 +19,17 @@ public class Admin extends Employee
     
     public void addEmployee (String username, String password)
     {
-    	Employee(username,password);
+    	Warehouse.addEmployee(username,password);
     }
     
-    public void addProduct (Warehouse club, Product newMember)
+    public void addProduct (Warehouse warehouse, Product newProduct)
     {
-        Warehouse.addMember(this, newMember);
+        Warehouse.addProduct(this, newProduct);
     }
 
-    public void removeProduct (Warehouse club, Product deleteMember)
+    public void removeProduct (Warehouse warehouse, Product deleteProduct)
     {
-        Warehouse.removeMember(this, deleteMember);
+        Warehouse.removeProduct(this, deleteProduct);
     }
 
 }

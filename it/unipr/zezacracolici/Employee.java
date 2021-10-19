@@ -16,8 +16,19 @@ public class Employee extends Client
 	public Employee() {
 	}
 	
-	protected Employee(String username, String password) {
+	public Employee(String username, String password) {
 		super(username, password);
+	}
+	
+	public Product buyProduct(int number) {
+		Product product = new Product();
+		product.buyProduct(number);
+		return product;
+	}
+	
+	public void addProductQuantity(int number) {
+		Product product = new Product();
+		product.addProductQuantity(number);
 	}
 
 }
