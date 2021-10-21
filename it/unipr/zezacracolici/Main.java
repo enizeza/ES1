@@ -47,11 +47,12 @@ public class Main {
 		//admin.addProduct(product2);
 		
 		System.out.print("Insert username: ");
-		String username = reader.next();
+		String adminUsername = reader.next();
 		System.out.print("Insert password: ");
-		String password = reader.next();
+		String adminPassword = reader.next();
 		
-		Admin admin = new Admin(username,password);
+		Admin admin = new Admin(adminUsername,adminPassword);
+		//admin.registration("admin");
 		
 		do
 		{
@@ -234,10 +235,11 @@ public class Main {
 							String newFactory = reader.next();
 							System.out.print("Insert product price: ");
 							Double newPrice = reader.nextDouble();
-							System.out.print("Insert password: ");
+							System.out.print("Insert quantity: ");
 							int newQuantity = reader.nextInt();
-							Product newProduct = new Product(newName,3,newFactory,newPrice,newQuantity);
-							admin.addProduct(newProduct);
+							//manca id automatizzato
+							//Product newProduct = new Product(newName,3,newFactory,newPrice,newQuantity);
+							//admin.addProduct(newProduct);
 							break;
 						case 3:
 							System.out.print("Insert Id for delete: ");
