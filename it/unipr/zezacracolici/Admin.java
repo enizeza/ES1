@@ -43,9 +43,16 @@ public class Admin extends Employee
 		}
     }
 
-    public void removeProduct (Product deleteProduct)
+    public void removeProduct (int id)
     {
-        Warehouse.removeProduct(this, deleteProduct);
+    	readFile();
+		for(Product element : product) {
+        	if (element.getId() == product1.getId()) {
+        		element.setQuantity(product1.getQuantity() + number);
+        	}
+        }
+		System.out.println(product);
+		writeFile();
     }
 
 }

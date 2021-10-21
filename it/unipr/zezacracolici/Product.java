@@ -87,4 +87,8 @@ public class Product {
 	public String toString() {
         return getName_product() + "," + getId() + "," + getName_factory() + "," + getPrice() + "," + getQuantity();
     }
+	
+	public String printProduct() {
+		return "Product name= " + getName_product() + "\nFactory name= " + getName_factory() + "\nPrice= " + getPrice() + "\n";
+	}
 }

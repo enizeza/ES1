@@ -37,20 +37,21 @@ public class Main {
 		Scanner reader = new Scanner(System.in);
 		int menu1=0;
 		
-		Admin admin = new Admin("root","root");
+		//Admin admin = new Admin("root","root");
 		List<Product> product = new ArrayList<Product>();
 		
-		Product product1 = new Product("Mac",1,"Apple",1000.00,2);
-		Product product2 = new Product("360",2,"hp",1000.00,2);
+		//Product product1 = new Product("Mac",1,"Apple",1000.00,2);
+		//Product product2 = new Product("360",2,"hp",1000.00,2);
 		
 		//admin.addProduct(product1);
 		//admin.addProduct(product2);
 		
+		System.out.print("Insert username: ");
+		String username = reader.next();
+		System.out.print("Insert password: ");
+		String password = reader.next();
 		
-		for (Product product3 : product) {
-			System.out.println(product3.getPrice());
-	    }
-		
+		Admin admin = new Admin(username,password);
 		
 		do
 		{
@@ -143,7 +144,7 @@ public class Main {
 					case "client":
 						Client logClient = new Client(loginUsername,loginPassword);
 						int menuclient = 0;
-						System.out.print("0:Quit\n1:Search products\n2: buy product");
+						System.out.println("0:Quit\n1:Search products\n2:buy product");
 						menuclient = reader.nextInt();
 						switch(menuclient) {
 						case 0:
@@ -172,37 +173,35 @@ public class Main {
 							double minPrice = reader.nextDouble();
 							System.out.print("Insert max price(0 if empty): ");
 							double maxPrice = reader.nextDouble(); 
-							/*
+							
 							List<Product> productTest = new ArrayList<Product>();
 							for (Product p : product) {
-								//productTest.add(p);
-								if((Objects.equals(nameProduct,"0")==false) && (Objects.equals(nameProduct,p.getName_product())==true)) {
-									continue;
+								productTest.add(p);
+								if((Objects.equals(nameProduct,"0")==false) && (Objects.equals(nameProduct,p.getName_product())==false)) {
+									productTest.remove(p);
 								}
-								else
-								{
-									productTest.pop(element);
+								else if(Objects.equals(nameFactory,"0")==false && Objects.equals(nameFactory,p.getName_factory())==false) {
+									productTest.remove(p);
+								}else if(minPrice != 0 && p.getPrice() < minPrice) {
+									productTest.remove(p);
+								}else if(maxPrice != 0 && p.getPrice() > maxPrice) {
+									productTest.remove(p);
 								}
-								if(Objects.equals(nameFactory,"0")==false && Objects.equals(nameFactory,element.getName_factory())==true) {
-									System.out.println(element.getName_product());
-								}
-								if(minPrice != 0 && ) {
-									System.out.println(element.getName_product());
-								}
-								if(Objects.equals(nameProduct,"0")==false && Objects.equals(nameProduct,element.getName_product())==true) {
-									System.out.println(element.getName_product());
-								}
-						    }*/
+						    }
+							for (Product prod : productTest) {
+								System.out.println(prod.printProduct());
+							}
+							
 							break;
 						case 2:
-							logClient.buyProduct(product1, 1);
+							//logClient.buyProduct(product1, 1);
 							break;
 						}
 						break;
 						
 					case "employee":
 						int menuemployee = 0;
-						System.out.print("0:Quit\n1:add employee\n2:add product\n3:remove product ");
+						System.out.println("0:Quit\n1:add employee\n2:add product\n3:remove product ");
 						menuemployee = reader.nextInt();
 						switch(menuemployee) {
 						case 0:
@@ -216,7 +215,7 @@ public class Main {
 						
 					case "admin":
 						int menuadmin = 0;
-						System.out.print("0:Quit\n1:add employee\n2:add product\n3:remove product ");
+						System.out.println("0:Quit\n1:add employee\n2:add product\n3:remove product ");
 						menuadmin = reader.nextInt();
 						switch(menuadmin) {
 						case 0:
@@ -229,8 +228,22 @@ public class Main {
 							admin.addEmployee(employeeUsername, employeePassword);
 							break;
 						case 2:
+							System.out.print("Insert product name: ");
+							String newName = reader.next();
+							System.out.print("Insert factory name: ");
+							String newFactory = reader.next();
+							System.out.print("Insert product price: ");
+							Double newPrice = reader.nextDouble();
+							System.out.print("Insert password: ");
+							int newQuantity = reader.nextInt();
+							Product newProduct = new Product(newName,3,newFactory,newPrice,newQuantity);
+							admin.addProduct(newProduct);
 							break;
 						case 3:
+							System.out.print("Insert Id for delete: ");
+							int idDelete = reader.nextInt();
+							//Product deleteProduct = new Product(newName,3,newFactory,newPrice,newQuantity);
+							admin.removeProduct(idDelete);
 							break;
 						}
 						break;
