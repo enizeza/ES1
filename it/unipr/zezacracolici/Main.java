@@ -145,124 +145,133 @@ public class Main {
 					case "client":
 						Client logClient = new Client(loginUsername,loginPassword);
 						int menuclient = 0;
-						System.out.println("0:Quit\n1:Search products\n2:buy product");
-						menuclient = reader.nextInt();
-						switch(menuclient) {
-						case 0:
-							break;
-						case 1:
-							try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
-								String strproduct;
-								String[] prodData;
-								while(true) {
-									strproduct = fproducts.readUTF();
-									prodData = strproduct.split(",");
-									Product appo = new Product(prodData[0],Integer.parseInt(prodData[1]),prodData[2],Double.parseDouble(prodData[3]),Integer.parseInt(prodData[4]));
-									product.add(appo);
+						do{
+							System.out.println("0:Quit\n1:Search products\n2:buy product");
+							menuclient = reader.nextInt();
+							switch(menuclient) {
+							case 0:
+								break;
+							case 1:
+								try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
+									String strproduct;
+									String[] prodData;
+									while(true) {
+										strproduct = fproducts.readUTF();
+										prodData = strproduct.split(",");
+										Product appo = new Product(prodData[0],Integer.parseInt(prodData[1]),prodData[2],Double.parseDouble(prodData[3]),Integer.parseInt(prodData[4]));
+										product.add(appo);
+									}
 								}
-							}
-							catch(EOFException e) {
-							}
-							catch(IOException e) {
-								e.printStackTrace();
-							}
-							System.out.print("Insert name product(0 if empty): ");
-							String nameProduct = reader.next();
-							System.out.print("Insert name factory(0 if empty): ");
-							String nameFactory = reader.next();
-							System.out.print("Insert min price(0 if empty): ");
-							double minPrice = reader.nextDouble();
-							System.out.print("Insert max price(0 if empty): ");
-							double maxPrice = reader.nextDouble(); 
-							
-							List<Product> productTest = new ArrayList<Product>();
-							for (Product p : product) {
-								productTest.add(p);
-								if((Objects.equals(nameProduct,"0")==false) && (Objects.equals(nameProduct,p.getName_product())==false)) {
-									productTest.remove(p);
+								catch(EOFException e) {
 								}
-								else if((Objects.equals(nameFactory,"0")==true) || (Objects.equals(nameFactory,p.getName_factory())==false)) {
-									productTest.remove(p);
-								}else if(minPrice != 0 && p.getPrice() < minPrice) {
-									productTest.remove(p);
-								}else if(maxPrice != 0 && p.getPrice() > maxPrice) {
-									productTest.remove(p);
+								catch(IOException e) {
+									e.printStackTrace();
 								}
-						    }
-							for (Product prod : productTest) {
-								System.out.println(prod.printProduct());
-							}
-							
-							break;
-						case 2:
-							System.out.print("Insert ID product to buy: ");
-							int buyId = reader.nextInt();
-							System.out.print("Insert quantity of product to buy: ");
-							int buyQuantity = reader.nextInt();
-							logClient.buyProduct(buyId, buyQuantity);
-							break;
+								System.out.print("Insert name product(0 if empty): ");
+								String nameProduct = reader.next();
+								System.out.print("Insert name factory(0 if empty): ");
+								String nameFactory = reader.next();
+								System.out.print("Insert min price(0 if empty): ");
+								double minPrice = reader.nextDouble();
+								System.out.print("Insert max price(0 if empty): ");
+								double maxPrice = reader.nextDouble(); 
+								
+								List<Product> productTest = new ArrayList<Product>();
+								for (Product p : product) {
+									productTest.add(p);
+									if((Objects.equals(nameProduct,"0")==false) && (Objects.equals(nameProduct,p.getName_product())==false)) {
+										productTest.remove(p);
+									}
+									else if((Objects.equals(nameFactory,"0")==true) || (Objects.equals(nameFactory,p.getName_factory())==false)) {
+										productTest.remove(p);
+									}else if(minPrice != 0 && p.getPrice() < minPrice) {
+										productTest.remove(p);
+									}else if(maxPrice != 0 && p.getPrice() > maxPrice) {
+										productTest.remove(p);
+									}
+							    }
+								for (Product prod : productTest) {
+									System.out.println(prod.printProduct());
+								}
+								
+								break;
+							case 2:
+								System.out.print("Insert ID product to buy: ");
+								int buyId = reader.nextInt();
+								System.out.print("Insert quantity of product to buy: ");
+								int buyQuantity = reader.nextInt();
+								logClient.buyProduct(buyId, buyQuantity);
+								break;
+								}
 						}
+						while(menuclient != 0);
 						break;
 						
 					case "employee":
 						Employee logEmployee = new Employee(loginUsername,loginPassword);
 						int menuemployee = 0;
-						logEmployee.routine();
-						System.out.println("0:Quit\n1:ship product\n2:buy products");
-						menuemployee = reader.nextInt();
-						switch(menuemployee) {
-						case 0:
-							break;
-						case 1:
-							System.out.print("Insert ID product to ship: ");
-							int shipId = reader.nextInt();
-							logEmployee.shipProduct(shipId);
-							break;
-						case 2:
-							System.out.print("Insert ID product to buy: ");
-							int buyId = reader.nextInt();
-							System.out.print("Insert quantity of product to buy: ");
-							int buyQuantity = reader.nextInt();
-							logEmployee.buyProductEmployee(buyId,buyQuantity);
-							break;
+						do {
+							logEmployee.routine();
+							System.out.println("0:Quit\n1:ship product\n2:buy products");
+							menuemployee = reader.nextInt();
+							switch(menuemployee) {
+							case 0:
+								break;
+							case 1:
+								System.out.print("Insert ID product to ship: ");
+								int shipId = reader.nextInt();
+								logEmployee.shipProduct(shipId);
+								break;
+							case 2:
+								System.out.print("Insert ID product to buy: ");
+								int buyId = reader.nextInt();
+								System.out.print("Insert quantity of product to buy: ");
+								int buyQuantity = reader.nextInt();
+								logEmployee.buyProductEmployee(buyId,buyQuantity);
+								break;
+							}
 						}
+						while(menuemployee != 0);
 						break;
 						
 					case "admin":
 						int menuadmin = 0;
-						System.out.println("0:Quit\n1:add employee\n2:add product\n3:remove product ");
-						menuadmin = reader.nextInt();
-						switch(menuadmin) {
-						case 0:
-							break;
-						case 1:
-							System.out.print("Insert username: ");
-							String employeeUsername = reader.next();
-							System.out.print("Insert password: ");
-							String employeePassword = reader.next();
-							admin.addEmployee(employeeUsername, employeePassword);
-							break;
-						case 2:
-							System.out.print("Insert product name: ");
-							String newName = reader.next();
-							System.out.print("Insert factory name: ");
-							String newFactory = reader.next();
-							System.out.print("Insert product price: ");
-							Double newPrice = reader.nextDouble();
-							System.out.print("Insert product ID: ");
-							int newID = reader.nextInt();
-							Product newProduct = new Product(newName,newID,newFactory,newPrice,0);
-							admin.addProduct(newProduct);
-							break;
-						case 3:
-							System.out.print("Insert Id of product to delete: ");
-							int idDelete = reader.nextInt();
-							admin.removeProduct(idDelete);
-							break;
+						do {
+							System.out.println("0:Quit\n1:add employee\n2:add product\n3:remove product ");
+							menuadmin = reader.nextInt();
+							switch(menuadmin) {
+							case 0:
+								break;
+							case 1:
+								System.out.print("Insert username: ");
+								String employeeUsername = reader.next();
+								System.out.print("Insert password: ");
+								String employeePassword = reader.next();
+								admin.addEmployee(employeeUsername, employeePassword);
+								break;
+							case 2:
+								System.out.print("Insert product name: ");
+								String newName = reader.next();
+								System.out.print("Insert factory name: ");
+								String newFactory = reader.next();
+								System.out.print("Insert product price: ");
+								Double newPrice = reader.nextDouble();
+								System.out.print("Insert product ID: ");
+								int newID = reader.nextInt();
+								Product newProduct = new Product(newName,newID,newFactory,newPrice,0);
+								admin.addProduct(newProduct);
+								break;
+							case 3:
+								System.out.print("Insert Id of product to delete: ");
+								int idDelete = reader.nextInt();
+								admin.removeProduct(idDelete);
+								break;
+							}
 						}
-						break;
-					}
+						while(menuadmin != 0);
 					break;
+					}
+			break;
 			}
 		}
 		while(menu1!=0);
