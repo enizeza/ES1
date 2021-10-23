@@ -12,7 +12,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author enize
@@ -24,13 +26,35 @@ public class Client extends Person
 	/**
 	 * 
 	 */
-	private List<Product> product = new ArrayList<Product>();
+	public static final String OPERATIONS = "operations.csv";
 	
-	public static final String DATAFILE = "users.csv";
+	//private List<Product> product = new ArrayList<Product>();
+	private Map<Integer, Product> product = new HashMap<Integer, Product>();
+	
+	//public static final String DATAFILE = "users.csv";
 	public static final String PRODUCTFILE = "product.csv";
+	
 
 	
-	public void readFile(){
+	private void readFile(){
+		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
+			String strproduct;
+			String[] prodData;
+			while(true) {
+				strproduct = fproducts.readUTF();
+				prodData = strproduct.split(",");
+				Product appo = new Product(prodData[0],Integer.parseInt(prodData[1]),prodData[2],Double.parseDouble(prodData[3]),Integer.parseInt(prodData[4]));
+				product.put(Integer.parseInt(prodData[1]),appo);
+			}
+		}
+		catch(EOFException e) {
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*public void readFile(){
 		//List<Product> product = new ArrayList<Product>();
 		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
 			String strproduct;
@@ -60,7 +84,7 @@ public class Client extends Person
 		finally {
 			fProdOut.close();
 		}
-	}
+	}*/
 	
 	public Client() {
 		
@@ -74,19 +98,23 @@ public class Client extends Person
 		
 	}*/
 	
-	public void buyProduct(Product product1,int number) throws IOException {
+	public void buyProduct(int idProduct,int number) throws IOException {
+		readFile();
+		Product product1 = product.get(idProduct);
 		if (number > product1.getQuantity()){
-			System.out.println("Troppi prodotti richiesti!!");
+			System.out.println("Troppi prodotti richiesti!! ne abbiamo disponibili: "+ product1.getQuantity());
 		}
 		else {
-			readFile();
-			for(Product element : product) {
-	        	if (element.getId() == product1.getId()) {
-	        		element.setQuantity(product1.getQuantity() + number);
-	        	}
-	        }
-			System.out.println(product);
-			writeFile();
+			DataOutputStream fProdOut = null;
+			try {
+		        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
+		        product1.setQuantity(number);
+		        fProdOut.writeUTF(product1.operationsToString("SHIP"));
+			}
+			finally {
+				fProdOut.close();
+			}
+			
 		}	
 		
 	}

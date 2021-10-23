@@ -181,7 +181,7 @@ public class Main {
 								if((Objects.equals(nameProduct,"0")==false) && (Objects.equals(nameProduct,p.getName_product())==false)) {
 									productTest.remove(p);
 								}
-								else if(Objects.equals(nameFactory,"0")==false && Objects.equals(nameFactory,p.getName_factory())==false) {
+								else if((Objects.equals(nameFactory,"0")==true) || (Objects.equals(nameFactory,p.getName_factory())==false)) {
 									productTest.remove(p);
 								}else if(minPrice != 0 && p.getPrice() < minPrice) {
 									productTest.remove(p);
@@ -195,21 +195,35 @@ public class Main {
 							
 							break;
 						case 2:
-							//logClient.buyProduct(product1, 1);
+							System.out.print("Insert ID product to buy: ");
+							int buyId = reader.nextInt();
+							System.out.print("Insert quantity of product to buy: ");
+							int buyQuantity = reader.nextInt();
+							logClient.buyProduct(buyId, buyQuantity);
 							break;
 						}
 						break;
 						
 					case "employee":
+						Employee logEmployee = new Employee(loginUsername,loginPassword);
 						int menuemployee = 0;
-						System.out.println("0:Quit\n1:add employee\n2:add product\n3:remove product ");
+						logEmployee.routine();
+						System.out.println("0:Quit\n1:ship product\n2:buy products");
 						menuemployee = reader.nextInt();
 						switch(menuemployee) {
 						case 0:
 							break;
 						case 1:
+							System.out.print("Insert ID product to ship: ");
+							int shipId = reader.nextInt();
+							logEmployee.shipProduct(shipId);
 							break;
 						case 2:
+							System.out.print("Insert ID product to buy: ");
+							int buyId = reader.nextInt();
+							System.out.print("Insert quantity of product to buy: ");
+							int buyQuantity = reader.nextInt();
+							logEmployee.buyProductEmployee(buyId,buyQuantity);
 							break;
 						}
 						break;
@@ -235,16 +249,14 @@ public class Main {
 							String newFactory = reader.next();
 							System.out.print("Insert product price: ");
 							Double newPrice = reader.nextDouble();
-							System.out.print("Insert quantity: ");
-							int newQuantity = reader.nextInt();
-							//manca id automatizzato
-							//Product newProduct = new Product(newName,3,newFactory,newPrice,newQuantity);
-							//admin.addProduct(newProduct);
+							System.out.print("Insert product ID: ");
+							int newID = reader.nextInt();
+							Product newProduct = new Product(newName,newID,newFactory,newPrice,0);
+							admin.addProduct(newProduct);
 							break;
 						case 3:
-							System.out.print("Insert Id for delete: ");
+							System.out.print("Insert Id of product to delete: ");
 							int idDelete = reader.nextInt();
-							//Product deleteProduct = new Product(newName,3,newFactory,newPrice,newQuantity);
 							admin.removeProduct(idDelete);
 							break;
 						}

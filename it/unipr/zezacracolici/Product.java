@@ -88,6 +88,10 @@ public class Product {
         return getName_product() + "," + getId() + "," + getName_factory() + "," + getPrice() + "," + getQuantity();
     }
 	
+	public String operationsToString(String operation) {
+        return operation + "," +getName_product() + "," + getId() + "," + getName_factory() + "," + getPrice() + "," + getQuantity();
+    }
+	
 	public String printProduct() {
 		return "Product name= " + getName_product() + "\nFactory name= " + getName_factory() + "\nPrice= " + getPrice() + "\n";
 	}
