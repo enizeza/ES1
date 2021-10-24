@@ -4,20 +4,11 @@
 package it.unipr.zezacracolici;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -41,8 +32,6 @@ public class Main {
 		boolean admins = false;
 		String adminUser="", adminPassword="";
 		Admin admin;
-		
-		List<Product> product = new ArrayList<Product>();
 		
 		File file2 = new File(DATAFILE);
 		if (file2.exists()) {

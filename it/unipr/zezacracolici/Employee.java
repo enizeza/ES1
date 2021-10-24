@@ -9,12 +9,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -100,7 +97,7 @@ public class Employee extends Client
 			if (p == null) {
 				System.out.println("Prodotto non più esistente");
 			} else {
-				Product shipDone = shipProduct.remove(i.getId());
+				shipProduct.remove(i.getId());
 				Product productToModify = product.remove(p.getId());
 				int quantity = i.getQuantity();
 				
@@ -132,8 +129,7 @@ public class Employee extends Client
 			System.out.println("Prodotto non esistente");
 		} else {
 			if (i !=null) {
-				Product buyDone = buyProduct.remove(i.getId());
-				
+				buyProduct.remove(i.getId());
 			}
 			Product productToModify = product.remove(p.getId());
 			

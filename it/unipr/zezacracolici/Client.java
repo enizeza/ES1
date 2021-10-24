@@ -11,9 +11,7 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,9 +57,6 @@ public class Client extends Person
 	
 	public void searchProduct(String nameProduct, String nameFactory, double priceMin, double priceMax) {
 		readFile();
-		for (Product value : product.values()) {
-		    
-		}
 		
 		if (nameProduct.equals("0")) {
 			if (nameFactory.equals("0")) {
@@ -224,7 +219,6 @@ public class Client extends Person
 					
 					for (Product value : test.values()) {
 						if(value.getPrice() >= priceMin) {
-							//System.out.print(value.printProduct());
 							testPrice.put(value.getId(),value);
 						}
 					}
