@@ -135,23 +135,32 @@ public class Main {
 					String loginUsername = reader.next();
 					System.out.print("Insert password: ");
 					String loginPassword = reader.next();
-					try (DataInputStream flogin = new DataInputStream(new BufferedInputStream(new FileInputStream(DATAFILE)))){
-						String person;
-						String[] pdata;
-						while(logfound == false) {
-							person = flogin.readUTF();
-							pdata = person.split(",");
-							if(Objects.equals(loginUsername, pdata[0]) == true && Objects.equals(loginPassword, pdata[1]) == true) {
-								logfound = true;
-								role = pdata[2];
+					do{
+						try (DataInputStream flogin = new DataInputStream(new BufferedInputStream(new FileInputStream(DATAFILE)))){
+							String person;
+							String[] pdata;
+							while(logfound == false) {
+								person = flogin.readUTF();
+								pdata = person.split(",");
+								if(Objects.equals(loginUsername, pdata[0]) == true && Objects.equals(loginPassword, pdata[1]) == true) {
+									logfound = true;
+									role = pdata[2];
+								}
 							}
 						}
-					}
-					catch(EOFException e) {
-					}
-					catch(IOException e) {
-						e.printStackTrace();
-					}
+						catch(EOFException e) {
+						}
+						catch(IOException e) {
+							e.printStackTrace();
+						}
+						if(logfound == false) {
+							System.out.println("Username or Password NOT CORRECT");
+							System.out.print("Insert username: ");
+							loginUsername = reader.next();
+							System.out.print("Insert password: ");
+							loginPassword = reader.next();
+						}
+					}while(logfound == false);
 					
 					switch(role) {
 					
@@ -160,7 +169,7 @@ public class Main {
 						int menuclient = 0;
 						do{
 							System.out.println("\n*******CLIENT*******\n");
-							System.out.println("0:Quit\n1:search products\n2:buy product");
+							System.out.println("\n0:Quit\n1:search products\n2:buy product");
 							menuclient = reader.nextInt();
 							switch(menuclient) {
 								case 0:
