@@ -1,7 +1,23 @@
-/**
- * 
- */
 package it.unipr.zezacracolici;
+
+/**
+ * Admin is a subclass of employee. It has some privileges more than Employee.
+ * 
+ * @author   enize
+ * @author   leocraco
+ * 
+ * @version  1.0
+ * @since    1.0
+ */
+
+
+/**
+ * Libraries for writing and reading file and control Exceptions
+ * Libraries for using ArrayList, HasMap
+ * 
+ * @version     1.0
+ * @since       1.0
+ */
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -16,17 +32,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author enize
- * @author leocraco
- */
+
 public class Admin extends Employee
 {	
 	private static final String PRODUCTFILE = "product.csv";
 	private static final String OPERATIONS = "operations.csv";
 	
 	private List<Product> product = new ArrayList<Product>();
-	public Map<Integer, Product> productMap = new HashMap<Integer, Product>();
+	private Map<Integer, Product> productMap = new HashMap<Integer, Product>();
 	
 	
 	private void readFile(){
@@ -47,20 +60,58 @@ public class Admin extends Employee
 		}
 	}
 	
+	/** 
+     * This constructor generates an Admin object.
+     *
 
+     * @param String username the person username 
+     * @param String password the person password
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
     public Admin(String username, String password) {
         super(username, password);
     }
-
+    
+    /**
+     * Empty constructor for the object
+     * 
+     * @since 1.0
+     */
     public Admin() {
     }
     
+    
+    /**
+     * This method is wrapper for Person's registration method.
+     * Only subscribe employees
+     * 
+     * @param String username
+     * @param String password
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
     public void addEmployee (String username, String password) throws IOException
     {
     	Employee employee = new Employee(username, password);
     	employee.registration("employee");
     }
     
+    
+    /**
+     * This method add a new Product into the file PRODUCTFILE.
+     * Add to file OPERATIONS, the operation to buy quantities of the new product
+     * 
+     * @param Product newProduct
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
     public void addProduct (Product newProduct) throws IOException
     {
     	readFile();
@@ -87,7 +138,16 @@ public class Admin extends Employee
 			}
 		}		
     }
-
+    
+    /**
+     * This method remove a Product from the file PRODUCTFILE.
+     * 
+     * @param int id
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
     public void removeProduct (int id) throws IOException
     {
     	try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){

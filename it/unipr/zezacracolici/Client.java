@@ -1,7 +1,23 @@
-/**
- * 
- */
 package it.unipr.zezacracolici;
+
+/**
+ * Client is a subclass of person. It has some privileges more than Person.
+ * 
+ * @author   enize
+ * @author   leocraco
+ * 
+ * @version  1.0
+ * @since    1.0
+ */
+
+
+/**
+ * Libraries for writing and reading file and control Exceptions
+ * Libraries for using ArrayList, HasMap
+ * 
+ * @version     1.0
+ * @since       1.0
+ */
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -14,18 +30,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author enize
- * @author leocraco
- */
 public class Client extends Person
 {
-
-	/**
-	 * 
-	 */
-	public static final String OPERATIONS = "operations.csv";
-	public static final String PRODUCTFILE = "product.csv";
+	private static final String OPERATIONS = "operations.csv";
+	private static final String PRODUCTFILE = "product.csv";
 
 	private Map<Integer, Product> product = new HashMap<Integer, Product>();
 	
@@ -46,15 +54,42 @@ public class Client extends Person
 			e.printStackTrace();
 		}
 	}
-		
-	public Client() {
-		
+	
+	/**
+	 * Empty constructor for the object
+	 * 
+	 * @since 1.0
+	 */
+	public Client() {	
 	}
 	
+	/** 
+     * This constructor generates an Employee object.
+     *
+
+     * @param String username the person username 
+     * @param String password the person password
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
 	public Client(String username, String password) {
 		super(username, password);
 	}
 	
+	/**
+     * Prints products that respect certain condition of research
+     * 
+     * @param String nameProduct
+     * @param String nameFactory
+     * @param double priceMin
+     * @param double priceMax
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
 	public void searchProduct(String nameProduct, String nameFactory, double priceMin, double priceMax) {
 		readFile();
 		
@@ -68,6 +103,16 @@ public class Client extends Person
 		}
 	}
 	
+	/**
+     * Add to file OPERATIONS, the operation to ship certain quantities of a product
+     * 
+     * @param int idProduct
+     * @param int number
+     * 
+     * @return void
+     * 
+     * @since 1.0
+     */
 	public void buyProduct(int idProduct,int number) throws IOException {
 		readFile();
 		Product product1 = product.get(idProduct);
