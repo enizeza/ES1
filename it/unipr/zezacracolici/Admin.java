@@ -111,7 +111,6 @@ public class Admin extends Employee
         	}
         }
 		
-		System.out.println(product);
 		DataOutputStream fProdOut = null;
 		try {
 	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(PRODUCTFILE, false)));

@@ -28,22 +28,13 @@ public class Employee extends Client
 	 * 
 	 */	
 	public Map<Integer, Product> product = new HashMap<Integer, Product>();
-	
-	//private List<Product> shipProduct = new ArrayList<Product>();
 	public Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
-	//private List<Product> buyProduct = new ArrayList<Product>();
 	public Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
-	
-	public Map<Integer, Product> operations = new HashMap<Integer, Product>();
-	
-	//public List<String> operations = new ArrayList<String>();
-	
-	
+	public Map<Integer, Product> operations = new HashMap<Integer, Product>();	
 	
 	public static final String PRODUCTFILE = "product.csv";
 	public static final String OPERATIONS = "operations.csv";
 
-	
 	private void readFile(){
 		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
 			String strproduct;
@@ -102,7 +93,6 @@ public class Employee extends Client
 		readFile();
 		
 		Product i = shipProduct.get(idship);
-		//System.out.println(shipProduct);
 		if (i == null) {
 			System.out.println("Prodotto non esistente da spedire");
 		} else {
@@ -111,7 +101,6 @@ public class Employee extends Client
 				System.out.println("Prodotto non più esistente");
 			} else {
 				Product shipDone = shipProduct.remove(i.getId());
-				//System.out.println(shipProduct);
 				Product productToModify = product.remove(p.getId());
 				int quantity = i.getQuantity();
 				
@@ -164,20 +153,8 @@ public class Employee extends Client
 			while(true) {
 				strproduct = fproducts.readUTF();
 				prodData = strproduct.split(",");
-				Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));
-				/*if (prodData[0] == "SHIP") {
-					System.out.println(prodData[0]);
-					System.out.println(appo);
-					shipProduct.put(Integer.parseInt(prodData[2]),appo);
-				}
-				else if (prodData[0] == "BUY"){
-					buyProduct.put(Integer.parseInt(prodData[2]),appo);
-				}*/
-				//operations.add(strproduct);
-				
+				Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));				
 				if (prodData[0].equals("SHIP")) {
-					//System.out.println(prodData[0]);
-					//System.out.println(appo);
 					shipProduct.put(Integer.parseInt(prodData[2]),appo);
 				}
 				else if (prodData[0].equals("BUY")){
@@ -193,7 +170,8 @@ public class Employee extends Client
 	}
 
 	public void routine() {
-		System.out.println("Operazioni da svolgere");
+		System.out.println("*******Operazioni da svolgere*******");
+		System.out.println("TYPE,NAME,ID,FACTORY,PRICE,QUANTITY");
 		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
 			while(true) {
 				System.out.println(fproducts.readUTF());

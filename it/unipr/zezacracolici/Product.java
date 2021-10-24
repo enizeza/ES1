@@ -67,23 +67,6 @@ public class Product {
 		this.quantity = appo;
 	}
 	
-	/*public void buyProduct(int number) {
-		if (number > this.quantity){
-			System.out.println("Troppi prodotti richiesti!!");
-		}
-		else
-			this.quantity = this.quantity - number;
-	}
-	
-	public void addProductQuantity(int number) {
-		this.quantity = this.quantity + number;
-		
-	}*/
-
-	/*public void addProduct(List<Product> product, Product newProduct) {
-		product.add(newProduct);
-	}*/
-	
 	public String toString() {
         return getName_product() + "," + getId() + "," + getName_factory() + "," + getPrice() + "," + getQuantity();
     }
@@ -93,6 +76,6 @@ public class Product {
     }
 	
 	public String printProduct() {
-		return "Product name= " + getName_product() + "\nFactory name= " + getName_factory() + "\nPrice= " + getPrice() + "\n";
+		return "\n*************************\nProduct ID = " + getId() +"\nProduct name = " + getName_product() + "\nFactory name = " + getName_factory() + "\nPrice = " + getPrice() + "\n";
 	}
 }

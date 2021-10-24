@@ -27,14 +27,9 @@ public class Client extends Person
 	 * 
 	 */
 	public static final String OPERATIONS = "operations.csv";
-	
-	//private List<Product> product = new ArrayList<Product>();
-	private Map<Integer, Product> product = new HashMap<Integer, Product>();
-	
-	//public static final String DATAFILE = "users.csv";
 	public static final String PRODUCTFILE = "product.csv";
-	
 
+	private Map<Integer, Product> product = new HashMap<Integer, Product>();
 	
 	private void readFile(){
 		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
@@ -53,39 +48,7 @@ public class Client extends Person
 			e.printStackTrace();
 		}
 	}
-	
-	/*public void readFile(){
-		//List<Product> product = new ArrayList<Product>();
-		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
-			String strproduct;
-			String[] prodData;
-			while(true) {
-				strproduct = fproducts.readUTF();
-				prodData = strproduct.split(",");
-				Product appo = new Product(prodData[0],Integer.parseInt(prodData[1]),prodData[2],Double.parseDouble(prodData[3]),Integer.parseInt(prodData[4]));
-				product.add(appo);
-			}
-		}
-		catch(EOFException e) {
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void writeFile() throws IOException{
-		DataOutputStream fProdOut = null;
-		try {
-	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(PRODUCTFILE, false)));
-	        for(Product element : product) {
-	        	fProdOut.writeUTF(element.toString());
-	        }
-		}
-		finally {
-			fProdOut.close();
-		}
-	}*/
-	
+		
 	public Client() {
 		
 	}
@@ -94,9 +57,194 @@ public class Client extends Person
 		super(username, password);
 	}
 	
-	/*public Product searchProduct(String nameProduct, String nameFactory, int priceMin, int priceMax) {
+	public void searchProduct(String nameProduct, String nameFactory, double priceMin, double priceMax) {
+		readFile();
+		for (Product value : product.values()) {
+		    
+		}
 		
-	}*/
+		if (nameProduct.equals("0")) {
+			if (nameFactory.equals("0")) {
+				if (priceMin == 0) {
+					if (priceMax == 0) {
+						for (Product value : product.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : product.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+				else {
+					Map<Integer, Product> test = new HashMap<Integer, Product>();
+					
+					for (Product value : product.values()) {
+						if(value.getPrice() >= priceMin) {
+							test.put(value.getId(),value);
+						}
+					}
+					
+					if (priceMax == 0) {
+						for (Product value : test.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : test.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+			}
+			else {
+				Map<Integer, Product> test = new HashMap<Integer, Product>();
+				
+				for (Product value : product.values()) {
+					if(value.getName_factory().equals(nameFactory)) {
+						test.put(value.getId(),value);
+					}
+				}
+				
+				if (priceMin == 0) {
+					if (priceMax == 0) {
+						for (Product value : test.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : test.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+				else {
+					Map<Integer, Product> testPrice = new HashMap<Integer, Product>();
+					
+					for (Product value : test.values()) {
+						if(value.getPrice() >= priceMin) {
+							testPrice.put(value.getId(),value);
+						}
+					}
+					
+					if (priceMax == 0) {
+						for (Product value : testPrice.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : testPrice.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+			}
+		}
+		else {
+			Map<Integer, Product> test = new HashMap<Integer, Product>();
+			
+			for (Product value : product.values()) {
+				if(value.getName_product().equals(nameProduct)) {
+					test.put(value.getId(),value);
+				}
+			}
+			
+			if (nameFactory.equals("0")) {
+				if (priceMin == 0) {
+					if (priceMax == 0) {
+						for (Product value : test.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : test.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+				else {
+					Map<Integer, Product> test2 = new HashMap<Integer, Product>();
+					
+					for (Product value : test.values()) {
+						if(value.getPrice() >= priceMin) {
+							test2.put(value.getId(),value);
+						}
+					}
+					
+					if (priceMax == 0) {
+						for (Product value : test2.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : test2.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+			}
+			else {
+				Map<Integer, Product> test2 = new HashMap<Integer, Product>();
+				
+				for (Product value : test.values()) {
+					if(value.getName_factory().equals(nameFactory)) {
+						test2.put(value.getId(),value);
+					}
+				}
+				
+				if (priceMin == 0) {
+					if (priceMax == 0) {
+						for (Product value : test2.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : test2.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+				else {
+					Map<Integer, Product> testPrice = new HashMap<Integer, Product>();
+					
+					for (Product value : test.values()) {
+						if(value.getPrice() >= priceMin) {
+							//System.out.print(value.printProduct());
+							testPrice.put(value.getId(),value);
+						}
+					}
+					
+					if (priceMax == 0) {
+						for (Product value : testPrice.values()) {
+							System.out.print(value.printProduct());
+						}
+					}
+					else {
+						for (Product value : testPrice.values()) {
+							if(value.getPrice() <= priceMax) {
+								System.out.print(value.printProduct());
+							}
+						}
+					}
+				}
+			}	
+		}
+	}
 	
 	public void buyProduct(int idProduct,int number) throws IOException {
 		readFile();
