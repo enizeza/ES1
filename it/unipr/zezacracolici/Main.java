@@ -160,7 +160,7 @@ public class Main {
 						int menuclient = 0;
 						do{
 							System.out.println("\n*******CLIENT*******\n");
-							System.out.println("\n0:Quit\n1:search products\n2:buy product");
+							System.out.println("0:Quit\n1:search products\n2:buy product");
 							menuclient = reader.nextInt();
 							switch(menuclient) {
 								case 0:

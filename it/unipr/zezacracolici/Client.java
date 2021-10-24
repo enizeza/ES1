@@ -58,7 +58,16 @@ public class Client extends Person
 	public void searchProduct(String nameProduct, String nameFactory, double priceMin, double priceMax) {
 		readFile();
 		
-		if (nameProduct.equals("0")) {
+		Map<Integer, Product> test = new HashMap<Integer, Product>();
+		test = product;
+		
+		for (Product p : test.values()) {
+			if((nameProduct.equals("0") || p.getName_product().equals(nameProduct)) && (nameFactory.equals("0") || p.getName_factory().equals(nameFactory)) && (priceMin == 0 || p.getPrice() >= priceMin) && (priceMax == 0 || p.getPrice() <= priceMax)) {
+				System.out.println(p.printProduct());
+			}
+		}
+		
+		/*if (nameProduct.equals("0")) {
 			if (nameFactory.equals("0")) {
 				if (priceMin == 0) {
 					if (priceMax == 0) {
@@ -237,7 +246,7 @@ public class Client extends Person
 					}
 				}
 			}	
-		}
+		}*/
 	}
 	
 	public void buyProduct(int idProduct,int number) throws IOException {
