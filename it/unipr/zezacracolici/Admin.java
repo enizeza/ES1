@@ -13,6 +13,7 @@ import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -87,7 +88,7 @@ public class Admin extends Employee
      * @param username username of the employee to register
      * @param password password of the employee to register
      * 
-     * @throws IOException
+     * @throws IOException input output
      * 
      * @since 1.0
      */
@@ -104,13 +105,16 @@ public class Admin extends Employee
      * 
      * @param newProduct the product to add
      * 
-     * @throws IOException
+     * @throws IOException input output
      * 
      * @since 1.0
      */
     public void addProduct (Product newProduct) throws IOException
     {
-    	readFile();
+    	File fControl = new File(PRODUCTFILE);
+    	if(fControl.exists()) {
+    		readFile();
+    	}
     	Product p = productMap.get(newProduct.getId());
 		if (p != null) {
 			System.out.println("ID already exists!!!");
@@ -140,7 +144,7 @@ public class Admin extends Employee
      * 
      * @param id the id of the product to remove
      * 
-     * @throws IOException
+     * @throws IOException input output
      * 
      * @since 1.0
      */

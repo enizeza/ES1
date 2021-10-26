@@ -33,8 +33,8 @@ public class Main {
 	private static final String DATAFILE = "users.csv";
 	
 	/**
-	 * @param args
-	 * @throws IOException 
+	 * @param args arguments
+	 * @throws IOException input output
 	 */
 	public static void main(String[] args) throws IOException {
 		Scanner reader = new Scanner(System.in);

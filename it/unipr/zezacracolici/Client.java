@@ -113,7 +113,7 @@ public class Client extends Person
      * @param idProduct id of the product to order
      * @param number quantity of the products to order
      * 
-     * @throws IOException
+     * @throws IOException input output
      * 
      * @since 1.0
      */

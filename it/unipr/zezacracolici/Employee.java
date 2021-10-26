@@ -134,13 +134,11 @@ public class Employee extends Client
      * 
      * @param idship id of the product to ship
      * 
-     * @throws IOException
+     * @throws IOException input output
      * 
      * @since 1.0
      */
 	public void shipProduct(int idship) throws IOException{
-		File foperationsControl = new File(OPERATIONS);
-		File fControl = new File(PRODUCTFILE);
 		readOperations();
 		readFile();
 		
@@ -180,7 +178,7 @@ public class Employee extends Client
      * @param idBuy id of the product to buy
      * @param buyQuantity how many products to buy
      * 
-     * @throws IOException
+     * @throws IOException input output
      * 
      * @since 1.0
      */
