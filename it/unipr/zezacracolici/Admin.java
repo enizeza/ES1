@@ -113,7 +113,7 @@ public class Admin extends Employee
     	readFile();
     	Product p = productMap.get(newProduct.getId());
 		if (p != null) {
-			System.out.println("ID già esistente!!!");
+			System.out.println("ID already exists!!!");
 		} else {
 			DataOutputStream fOut = null;
 			try {

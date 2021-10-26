@@ -12,6 +12,7 @@ import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -143,11 +144,11 @@ public class Employee extends Client
 		
 		Product i = shipProduct.get(idship);
 		if (i == null) {
-			System.out.println("Prodotto non esistente da spedire");
+			System.out.println("Nonexistent product to ship");
 		} else {
 			Product p = product.get(i.getId());
 			if (p == null) {
-				System.out.println("Prodotto non più esistente");
+				System.out.println("Product doesn't exist anymore");
 			} else {
 				shipProduct.remove(i.getId());
 				Product productToModify = product.remove(p.getId());
@@ -158,7 +159,7 @@ public class Employee extends Client
 				
 				Product ship = product.get(idship);
 				if(ship.getQuantity()==0) {
-					System.out.println("Prodotto "+ship.getName_product()+" terminato in magazzino");
+					System.out.println("Product "+ship.getName_product()+" run out in warehouse");
 					Product appo = new Product(ship.getName_product(),idship,ship.getName_factory(),ship.getPrice(),0);
 					buyProduct.put(idship,appo);
 				}
@@ -189,7 +190,7 @@ public class Employee extends Client
 
 		Product p = product.get(idBuy);
 		if (p == null) {
-			System.out.println("Prodotto non esistente");
+			System.out.println("Nonexistent product");
 		} else {
 			if (i !=null) {
 				buyProduct.remove(i.getId());
@@ -210,18 +211,24 @@ public class Employee extends Client
      * 
      * @since 1.0
      */
+	
 	public void routine() {
-		System.out.println("*******Operazioni da svolgere*******");
-		System.out.println("TYPE,NAME,ID,FACTORY,PRICE,QUANTITY");
-		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
-			while(true) {
-				System.out.println(fproducts.readUTF());
+		File fControl = new File(OPERATIONS);
+		if (fControl.exists()) {
+			System.out.println("*******Operations to carry out*******");
+			System.out.println("TYPE,NAME,ID,FACTORY,PRICE,QUANTITY");
+			try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
+				while(true) {
+					System.out.println(fproducts.readUTF());
+				}
 			}
-		}
-		catch(EOFException e) {
-		}
-		catch(IOException e) {
-			e.printStackTrace();
+			catch(EOFException e) {
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("*******No operations to be performed*******");
 		}
 	}
 
