@@ -53,7 +53,6 @@ public class Employee extends Client
 		catch(EOFException e) {
 		}
 		catch(IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -89,7 +88,6 @@ public class Employee extends Client
 		catch(EOFException e) {
 		}
 		catch(IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -144,7 +142,7 @@ public class Employee extends Client
 		
 		Product i = shipProduct.get(idship);
 		if (i == null) {
-			System.out.println("Nonexistent product to ship");
+			System.out.println("No products to ship");
 		} else {
 			Product p = product.get(i.getId());
 			if (p == null) {

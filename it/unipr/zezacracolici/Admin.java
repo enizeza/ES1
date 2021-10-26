@@ -17,9 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +35,6 @@ public class Admin extends Employee
 	private static final String PRODUCTFILE = "product.csv";
 	private static final String OPERATIONS = "operations.csv";
 	
-	private List<Product> product = new ArrayList<Product>();
 	private Map<Integer, Product> productMap = new HashMap<Integer, Product>();
 	
 	
@@ -55,7 +52,19 @@ public class Admin extends Employee
 		catch(EOFException e) {
 		}
 		catch(IOException e) {
-			e.printStackTrace();
+		}
+	}
+	
+	private void writeFile() throws IOException{
+		DataOutputStream fProdOut = null;
+		try {
+	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(PRODUCTFILE, false)));
+	        for(Product element : productMap.values()) {
+	        	fProdOut.writeUTF(element.toString());
+	        }
+		}
+		finally {
+			fProdOut.close();
 		}
 	}
 	
@@ -130,7 +139,7 @@ public class Admin extends Employee
 			
 			DataOutputStream fProdOut = null;
 			try {
-		        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
+		        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, true)));
 		        fProdOut.writeUTF(newProduct.operationsToString("BUY"));
 			}
 			finally {
@@ -150,36 +159,16 @@ public class Admin extends Employee
      */
     public void removeProduct (int id) throws IOException
     {
-    	try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
-			String strproduct;
-			String[] prodData;
-			while(true) {
-				strproduct = fproducts.readUTF();
-				prodData = strproduct.split(",");
-				Product appo = new Product(prodData[0],Integer.parseInt(prodData[1]),prodData[2],Double.parseDouble(prodData[3]),Integer.parseInt(prodData[4]));
-				product.add(appo);
-			}
-		}
-		catch(EOFException e) {
-		}
-		catch(IOException e) {
-			e.printStackTrace();
-		}
-		for(Product element : product) {
-        	if (element.getId() == id) {
-        		product.remove(element);
-        	}
-        }
-		
-		DataOutputStream fProdOut = null;
-		try {
-	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(PRODUCTFILE, false)));
-	        for(Product element : product) {
-	        	fProdOut.writeUTF(element.toString());
-	        }
-		}
-		finally {
-			fProdOut.close();
+    	File fControl = new File(PRODUCTFILE);
+    	if(fControl.exists()) {
+    		readFile();
+    	}
+    	Product p = productMap.get(id);
+		if (p == null) {
+			System.out.println("ID doesn't exists!!!");
+		} else {
+			productMap.remove(id);
+			writeFile();
 		}
     }
 
