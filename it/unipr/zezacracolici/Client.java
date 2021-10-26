@@ -1,17 +1,6 @@
 package it.unipr.zezacracolici;
 
 /**
- * Client is a subclass of person. It has some privileges more than Person.
- * 
- * @author   enize
- * @author   leocraco
- * 
- * @version  1.0
- * @since    1.0
- */
-
-
-/**
  * Libraries for writing and reading file and control Exceptions
  * Libraries for using ArrayList, HasMap
  * 
@@ -29,6 +18,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Client is a subclass of person. It has some privileges more than Person.
+ * 
+ * @author   enize
+ * @author   leocraco
+ * 
+ * @version  1.0
+ * @since    1.0
+ */
 
 public class Client extends Person
 {
@@ -67,10 +66,8 @@ public class Client extends Person
      * This constructor generates an Employee object.
      *
 
-     * @param String username the person username 
-     * @param String password the person password
-     * 
-     * @return void
+     * @param username the person username 
+     * @param password the person password
      * 
      * @since 1.0
      */
@@ -81,12 +78,10 @@ public class Client extends Person
 	/**
      * Prints products that respect certain condition of research
      * 
-     * @param String nameProduct
-     * @param String nameFactory
-     * @param double priceMin
-     * @param double priceMax
-     * 
-     * @return void
+     * @param nameProduct product's name
+     * @param nameFactory factory's name
+     * @param priceMin minimum price
+     * @param priceMax maximum price
      * 
      * @since 1.0
      */
@@ -106,10 +101,10 @@ public class Client extends Person
 	/**
      * Add to file OPERATIONS, the operation to ship certain quantities of a product
      * 
-     * @param int idProduct
-     * @param int number
+     * @param idProduct id of the product to order
+     * @param number quantity of the products to order
      * 
-     * @return void
+     * @throws IOException
      * 
      * @since 1.0
      */

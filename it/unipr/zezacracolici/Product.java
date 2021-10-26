@@ -35,13 +35,11 @@ public class Product {
      * This constructor generates a Product object.
      *
 
-     * @param String name_product    the product name_product 
-     * @param int id                 the product id
-     * @param String name_factory    the product name_factory
-     * @param double price    		 the product price
-     * @param int quantity    		 the product quantity
-     * 
-     * @return void
+     * @param name_product the product name_product 
+     * @param id the product id
+     * @param name_factory the product name_factory
+     * @param price the product price
+     * @param quantity the product quantity
      * 
      * @since 1.0
      */
@@ -109,11 +107,9 @@ public class Product {
 	}
 	
 	/** 
-     * This method sets the Product's quantity.
+     * This method sets the Product's quantity
      * 
-     * @param int number of quantity to set.
-     *
-     * @return void
+     * @param number quantity to set
      * 
      * @since 1.0
      */
@@ -134,6 +130,8 @@ public class Product {
 	
 	/** 
      * This method compose a string for writing Product object into file CSV with the operation.
+     *
+     * @param operation operation to save on file
      *
      * @return String to write into the file
      * 

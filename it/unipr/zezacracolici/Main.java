@@ -1,17 +1,6 @@
 package it.unipr.zezacracolici;
 
 /**
- * Here we are testing, running all the application.
- * and doing all the interaction with the console
- * 
- * @author   enize
- * @author   leocraco
- * 
- * @version  1.0
- * @since    1.0
- */
-
-/**
  * Libraries for writing and reading file and control Exceptions
  * Libraries for using ArrayList, HasMap
  * 
@@ -28,10 +17,20 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Here we are testing, running all the application.
+ * and doing all the interaction with the console
+ * 
+ * @author   enize
+ * @author   leocraco
+ * 
+ * @version  1.0
+ * @since    1.0
+ */
+
 public class Main {
 	
 	private static final String DATAFILE = "users.csv";
-	private static final String PRODUCTFILE = "product.csv";
 	
 	/**
 	 * @param args

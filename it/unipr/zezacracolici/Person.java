@@ -1,18 +1,6 @@
 package it.unipr.zezacracolici;
 
 /**
- * Person is in charge of saving a person object with its properties.
- * Each person has an username and a password.
- * 
- * @author   enize
- * @author   leocraco
- * 
- * @version  1.0
- * @since    1.0
- */
-
-
-/**
  * Libraries for writing into a file and control Exceptions
  * 
  * @version     1.0
@@ -23,6 +11,17 @@ import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+/**
+ * Person is in charge of saving a person object with its properties.
+ * Each person has an username and a password.
+ * 
+ * @author   enize
+ * @author   leocraco
+ * 
+ * @version  1.0
+ * @since    1.0
+ */
 
 public class Person {
 	
@@ -47,10 +46,9 @@ public class Person {
      * This constructor generates a Person object.
      *
 
-     * @param String username the person username 
-     * @param String password the person password
+     * @param user the person username 
+     * @param pass the person password
      * 
-     * @return void
      * 
      * @since 1.0
      */
@@ -85,9 +83,9 @@ public class Person {
      * This method subscribe a Person with a role.
      * Person subscribed are written in DATAFILE.
      * 
-     * @param String   role	    the role of the Person
+     * @param role the role of the Person
      * 
-     * @return void
+     * @throws IOException
      * 
      * @since 1.0
      */

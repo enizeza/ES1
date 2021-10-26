@@ -1,17 +1,6 @@
 package it.unipr.zezacracolici;
 
 /**
- * Admin is a subclass of employee. It has some privileges more than Employee.
- * 
- * @author   enize
- * @author   leocraco
- * 
- * @version  1.0
- * @since    1.0
- */
-
-
-/**
  * Libraries for writing and reading file and control Exceptions
  * Libraries for using ArrayList, HasMap
  * 
@@ -32,6 +21,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Admin is a subclass of employee. It has some privileges more than Employee.
+ * 
+ * @author   enize
+ * @author   leocraco
+ * 
+ * @version  1.0
+ * @since    1.0
+ */
 
 public class Admin extends Employee
 {	
@@ -64,10 +62,8 @@ public class Admin extends Employee
      * This constructor generates an Admin object.
      *
 
-     * @param String username the person username 
-     * @param String password the person password
-     * 
-     * @return void
+     * @param username the admin username 
+     * @param password the admin password
      * 
      * @since 1.0
      */
@@ -88,10 +84,10 @@ public class Admin extends Employee
      * This method is wrapper for Person's registration method.
      * Only subscribe employees
      * 
-     * @param String username
-     * @param String password
+     * @param username username of the employee to register
+     * @param password password of the employee to register
      * 
-     * @return void
+     * @throws IOException
      * 
      * @since 1.0
      */
@@ -106,9 +102,9 @@ public class Admin extends Employee
      * This method add a new Product into the file PRODUCTFILE.
      * Add to file OPERATIONS, the operation to buy quantities of the new product
      * 
-     * @param Product newProduct
+     * @param newProduct the product to add
      * 
-     * @return void
+     * @throws IOException
      * 
      * @since 1.0
      */
@@ -142,9 +138,9 @@ public class Admin extends Employee
     /**
      * This method remove a Product from the file PRODUCTFILE.
      * 
-     * @param int id
+     * @param id the id of the product to remove
      * 
-     * @return void
+     * @throws IOException
      * 
      * @since 1.0
      */

@@ -1,17 +1,6 @@
 package it.unipr.zezacracolici;
 
 /**
- * Employee is a subclass of client. It has some privileges more than Client.
- * 
- * @author   enize
- * @author   leocraco
- * 
- * @version  1.0
- * @since    1.0
- */
-
-
-/**
  * Libraries for writing and reading file and control Exceptions
  * Libraries for using ArrayList, HasMap
  * 
@@ -28,6 +17,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Employee is a subclass of client. It has some privileges more than Client.
+ * 
+ * @author   enize
+ * @author   leocraco
+ * 
+ * @version  1.0
+ * @since    1.0
+ */
 
 public class Employee extends Client
 {
@@ -118,11 +117,8 @@ public class Employee extends Client
 	/** 
      * This constructor generates an Employee object.
      *
-
-     * @param String username the person username 
-     * @param String password the person password
-     * 
-     * @return void
+     * @param username the person username 
+     * @param password the person password
      * 
      * @since 1.0
      */
@@ -135,9 +131,9 @@ public class Employee extends Client
      * Updating the quantity of product available in PRODUCTFILE
      * Removing from OPERATIONS the operation of shipping
      * 
-     * @param int idship
+     * @param idship id of the product to ship
      * 
-     * @return void
+     * @throws IOException
      * 
      * @since 1.0
      */
@@ -178,10 +174,10 @@ public class Employee extends Client
 	/**
      * This method buy the products updating the quantity of product available in PRODUCTFILE
      * 
-     * @param int idBuy
-     * @param int buyQuantity
+     * @param idBuy id of the product to buy
+     * @param buyQuantity how many products to buy
      * 
-     * @return void
+     * @throws IOException
      * 
      * @since 1.0
      */
@@ -211,8 +207,6 @@ public class Employee extends Client
 	
 	/**
      * This method prints the operation to do reading them from OPERATIONS
-     * 
-     * @return void
      * 
      * @since 1.0
      */
