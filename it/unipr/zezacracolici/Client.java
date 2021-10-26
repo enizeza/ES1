@@ -13,6 +13,7 @@ import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -86,17 +87,23 @@ public class Client extends Person
      * @since 1.0
      */
 	public void searchProduct(String nameProduct, String nameFactory, double priceMin, double priceMax) {
-		readFile();
-		
 		Map<Integer, Product> test = new HashMap<Integer, Product>();
-		test = product;
 		
-		for (Product p : test.values()) {
-			if((nameProduct.equals("0") || p.getName_product().equals(nameProduct)) && (nameFactory.equals("0") || p.getName_factory().equals(nameFactory)) && (priceMin == 0 || p.getPrice() >= priceMin) && (priceMax == 0 || p.getPrice() <= priceMax)) {
-				System.out.println(p.printProduct());
-			}else {
-				System.out.println("Products not found");
+		File fControl = new File(PRODUCTFILE);
+		if(fControl.exists()) {
+			readFile();
+			test = product;
+			
+			for (Product p : test.values()) {
+				if((nameProduct.equals("0") || p.getName_product().equals(nameProduct)) && (nameFactory.equals("0") || p.getName_factory().equals(nameFactory)) && (priceMin == 0 || p.getPrice() >= priceMin) && (priceMax == 0 || p.getPrice() <= priceMax)) {
+					System.out.println(p.printProduct());
+				}else {
+					System.out.println("Products not found");
+				}
 			}
+		}else{
+			System.out.println("There currently aren't any products available");
+			System.out.println("Try again later");
 		}
 	}
 	
@@ -111,24 +118,28 @@ public class Client extends Person
      * @since 1.0
      */
 	public void buyProduct(int idProduct,int number) throws IOException {
-		readFile();
-		Product product1 = product.get(idProduct);
-		if (number > product1.getQuantity()){
-			System.out.println("Too many products requested!! Currently available: "+ product1.getQuantity());
+		File fControl = new File(PRODUCTFILE);
+		if(fControl.exists()) {
+			readFile();
+			Product product1 = product.get(idProduct);
+			if (number > product1.getQuantity()){
+				System.out.println("Too many products requested!! Currently available: "+ product1.getQuantity());
+			}
+			else {
+				DataOutputStream fProdOut = null;
+				try {
+			        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
+			        product1.setQuantity(number);
+			        fProdOut.writeUTF(product1.operationsToString("SHIP"));
+				}
+				finally {
+					fProdOut.close();
+				}
+			}
+		}else {
+			System.out.println("There currently aren't any products available");
+			System.out.println("Try again later");
 		}
-		else {
-			DataOutputStream fProdOut = null;
-			try {
-		        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
-		        product1.setQuantity(number);
-		        fProdOut.writeUTF(product1.operationsToString("SHIP"));
-			}
-			finally {
-				fProdOut.close();
-			}
-			
-		}	
-		
 	}
 
 }

@@ -139,6 +139,8 @@ public class Employee extends Client
      * @since 1.0
      */
 	public void shipProduct(int idship) throws IOException{
+		File foperationsControl = new File(OPERATIONS);
+		File fControl = new File(PRODUCTFILE);
 		readOperations();
 		readFile();
 		
