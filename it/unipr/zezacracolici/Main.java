@@ -38,13 +38,13 @@ public class Main {
 	 */
 	public static void main(String[] args) throws IOException {
 		Scanner reader = new Scanner(System.in);
-		int menu1=0;
+		int generalMenu=0;
 		boolean admins = false;
 		String adminUser="", adminPassword="";
 		Admin admin;
 		
-		File file2 = new File(DATAFILE);
-		if (file2.exists()) {
+		File fileCheck = new File(DATAFILE);
+		if (fileCheck.exists()) {
 		try (DataInputStream fin = new DataInputStream(new BufferedInputStream(new FileInputStream(DATAFILE)))){
 			String u;
 			String[] usplitted;
@@ -81,8 +81,8 @@ public class Main {
 		do
 		{
 			System.out.println("\n0:Quit\n1:Register\n2:LogIn");
-			menu1 = reader.nextInt();
-			switch(menu1) {
+			generalMenu = reader.nextInt();
+			switch(generalMenu) {
 				case 0:
 					break;
 				case 1:
@@ -176,12 +176,12 @@ public class Main {
 					
 					case "client":
 						Client logClient = new Client(loginUsername,loginPassword);
-						int menuclient = 0;
+						int menuClient = 0;
 						do{
 							System.out.println("\n*******CLIENT*******\n");
 							System.out.println("\n0:Quit\n1:search products\n2:buy product");
-							menuclient = reader.nextInt();
-							switch(menuclient) {
+							menuClient = reader.nextInt();
+							switch(menuClient) {
 								case 0:
 									break;
 								case 1:
@@ -204,18 +204,18 @@ public class Main {
 									break;
 							}
 						}
-						while(menuclient != 0);
+						while(menuClient != 0);
 						break;
 						
 					case "employee":
 						Employee logEmployee = new Employee(loginUsername,loginPassword);
-						int menuemployee = 0;
+						int menuEmployee = 0;
 						do {
 							System.out.println("\n*******EMPLOYEE*******\n");
 							logEmployee.routine();
 							System.out.println("\n0:Quit\n1:ship product\n2:buy products warehouse\n3:search products");
-							menuemployee = reader.nextInt();
-							switch(menuemployee) {
+							menuEmployee = reader.nextInt();
+							switch(menuEmployee) {
 								case 0:
 									break;
 								case 1:
@@ -243,17 +243,17 @@ public class Main {
 									break;
 							}
 						}
-						while(menuemployee != 0);
+						while(menuEmployee != 0);
 						break;
 						
 					case "admin":
-						int menuadmin = 0;
+						int menuAdmin = 0;
 						do {
 							System.out.println("\n*******ADMIN*******\n");
 							admin.routine();
 							System.out.println("\n0:Quit\n1:add employee\n2:add product\n3:remove product\n4:ship product\n5:buy products warehouse\n6:search products");
-							menuadmin = reader.nextInt();
-							switch(menuadmin) {
+							menuAdmin = reader.nextInt();
+							switch(menuAdmin) {
 							case 0:
 								break;
 							case 1:
@@ -307,13 +307,13 @@ public class Main {
 
 							}
 						}
-						while(menuadmin != 0);
+						while(menuAdmin != 0);
 					break;
 					}
 			break;
 			}
 		}
-		while(menu1!=0);
+		while(generalMenu!=0);
 		reader.close();
 	}
 }
