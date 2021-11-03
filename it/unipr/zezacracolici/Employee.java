@@ -34,7 +34,8 @@ public class Employee extends Client
 
 	private Map<Integer, Product> product = new HashMap<Integer, Product>();
 	private Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
-	private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();	
+	private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
+	//private Map<Integer, Product> operations = new HashMap<Integer, Product>();
 	
 	private static final String PRODUCTFILE = "product.csv";
 	private static final String OPERATIONS = "operations.csv";
@@ -73,28 +74,31 @@ public class Employee extends Client
 		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
 			String strproduct;
 			String[] prodData;
+			int n = 1;
 			while(true) {
 				strproduct = fproducts.readUTF();
 				prodData = strproduct.split(",");
 				Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));				
 				if (prodData[0].equals("SHIP")) {
-					shipProduct.put(Integer.parseInt(prodData[2]),appo);
+					shipProduct.put(n,appo);
 				}
 				else if (prodData[0].equals("BUY")){
-					buyProduct.put(Integer.parseInt(prodData[2]),appo);
+					buyProduct.put(n,appo);
 				}
+				n = n+1;
 			}
 		}
 		catch(EOFException e) {
 		}
 		catch(IOException e) {
 		}
+		System.out.println(buyProduct);
 	}
 	
-	private void writeOperations(Map<Integer, Product> operations, String what) throws IOException{
+	private void writeOperations(Map<Integer, Product> operations, String what, boolean mod) throws IOException{
 		DataOutputStream fProdOut = null;
 		try {
-	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
+	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, mod)));
 	        for (Product value : operations.values()) {
 	        	fProdOut.writeUTF(value.operationsToString(what));
 	        }
@@ -148,27 +152,26 @@ public class Employee extends Client
 			if (p == null) {
 				System.out.println("Product doesn't exist anymore");
 			} else {
-				shipProduct.remove(i.getId());
+				shipProduct.remove(idship);
 				Product productToModify = product.remove(p.getId());
 				int quantity = i.getQuantity();
 				
 				productToModify.setQuantity(productToModify.getQuantity()-quantity);
 				product.put(p.getId(), productToModify);
 				
-				Product ship = product.get(idship);
+				Product ship = product.get(p.getId());
 				if(ship.getQuantity()==0) {
 					System.out.println("Product "+ship.getName_product()+" run out in warehouse");
-					Product appo = new Product(ship.getName_product(),idship,ship.getName_factory(),ship.getPrice(),0);
-					buyProduct.put(idship,appo);
+					Product appo = new Product(ship.getName_product(),ship.getId(),ship.getName_factory(),ship.getPrice(),0);
+					buyProduct.put(0,appo);
 				}
-				writeOperations(shipProduct,"SHIP");
-				writeOperations(buyProduct,"BUY");
+				writeOperations(shipProduct,"SHIP",false);
+				writeOperations(buyProduct,"BUY",true);
 				
 				writeFile();
 			}
 		}
 	}
-	
 	
 	/**
      * This method buy the products updating the quantity of product available in PRODUCTFILE
@@ -185,21 +188,20 @@ public class Employee extends Client
 		readFile();
 		
 		Product i = buyProduct.get(idBuy);
-
-		Product p = product.get(idBuy);
-		if (p == null) {
-			System.out.println("Nonexistent product");
+		if (i == null) {
+			System.out.println("No products to buy");
 		} else {
-			if (i !=null) {
-				buyProduct.remove(i.getId());
+			Product p = product.get(i.getId());
+			if (p == null) {
+				System.out.println("Nonexistent product");
+			} else {
+				buyProduct.remove(idBuy);
+				p.setQuantity(p.getQuantity()+buyQuantity);
+				product.replace(p.getId(), p);
 			}
-			Product productToModify = product.remove(p.getId());
-			
-			productToModify.setQuantity(productToModify.getQuantity()+buyQuantity);
-			product.put(p.getId(), productToModify);
-		}	
-		writeOperations(shipProduct,"SHIP");
-		writeOperations(buyProduct,"BUY");
+		}
+		writeOperations(shipProduct,"SHIP",false);
+		writeOperations(buyProduct,"BUY",true);
 		
 		writeFile();
 	}
@@ -212,12 +214,14 @@ public class Employee extends Client
 	
 	public void routine() {
 		File fControl = new File(OPERATIONS);
+		int n = 1;
 		if (fControl.exists()) {
 			System.out.println("*******Operations to carry out*******");
 			System.out.println("TYPE,NAME,ID,FACTORY,PRICE,QUANTITY");
 			try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
 				while(true) {
-					System.out.println(fproducts.readUTF());
+					System.out.println(n + " " + fproducts.readUTF());
+					n = n+1;
 				}
 			}
 			catch(EOFException e) {

@@ -219,12 +219,12 @@ public class Main {
 								case 0:
 									break;
 								case 1:
-									System.out.print("Insert ID product to ship: ");
+									System.out.print("Insert ID operation: ");
 									int shipId = reader.nextInt();
 									logEmployee.shipProduct(shipId);
 									break;
 								case 2:
-									System.out.print("Insert ID product to buy: ");
+									System.out.print("Insert ID operation: ");
 									int buyId = reader.nextInt();
 									System.out.print("Insert quantity of product to buy: ");
 									int buyQuantity = reader.nextInt();
@@ -282,12 +282,12 @@ public class Main {
 								break;	
 
 							case 4:
-								System.out.print("Insert ID product to ship: ");
+								System.out.print("Insert ID operation: ");
 								int shipId = reader.nextInt();
 								admin.shipProduct(shipId);
 								break;
 							case 5:
-								System.out.print("Insert ID product to buy: ");
+								System.out.print("Insert ID operation: ");
 								int buyId = reader.nextInt();
 								System.out.print("Insert quantity of product to buy: ");
 								int buyQuantity = reader.nextInt();

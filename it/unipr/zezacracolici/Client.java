@@ -125,7 +125,7 @@ public class Client extends Person
 			else {
 				DataOutputStream fProdOut = null;
 				try {
-			        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
+			        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, true)));
 			        product1.setQuantity(number);
 			        fProdOut.writeUTF(product1.operationsToString("SHIP"));
 				}
