@@ -35,8 +35,6 @@ public class Employee extends Client
 {
 
 	private Map<Integer, Product> product = new HashMap<Integer, Product>();
-	//private Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
-	//private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
 	private List<Product> shipProduct = new ArrayList<Product>();
 	
 	private static final String PRODUCTFILE = "product.csv";
