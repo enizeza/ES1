@@ -144,17 +144,14 @@ public class Employee extends Client
 		readFile();
 		
 		Product i = shipProduct.get(idship);
-		Product b = buyProduct.get(idship);
-		if (i == null && b == null) {
+		if (i == null) {
 			System.out.println("ID OPERATION doesn't exists!!!");
-		} 
-		if (i != null) {
+		} else {
 			Product p = product.get(i.getId());
-				int quantity = i.getQuantity();
-				if (p.getQuantity() < quantity) {
-					System.out.println("Can't ship now try later not enough product in warehouse buy it!!");
-			}
-			else {
+			int quantity = i.getQuantity();
+			if (p.getQuantity() < quantity) {
+				System.out.println("Can't ship now try later not enough product in warehouse buy it!!");
+			} else {
 				shipProduct.remove(idship);
 				Product productToModify = product.remove(p.getId());
 				
@@ -168,43 +165,23 @@ public class Employee extends Client
 					buyProduct.put(0,appo);
 				}	
 				
-				if (shipProduct.isEmpty() && !buyProduct.isEmpty())
+				/*if (shipProduct.isEmpty() && !buyProduct.isEmpty())
 					writeOperations(buyProduct,"BUY",false);
 				else
 					writeOperations(shipProduct,"SHIP",false);
 					if(!buyProduct.isEmpty()) {
 						writeOperations(buyProduct,"BUY",true);
-					}
+					}*/
+				/*writeOperations(shipProduct,"SHIP",false);
+				writeOperations(buyProduct,"BUY",true);*/
+				
+				//writeFile();
+				
+				writeOperations(shipProduct,"SHIP",false);
+				writeOperations(buyProduct,"BUY",true);
 				
 				writeFile();
 			}
-			
-		}
-			
-		if (b != null) {
-			Product p = product.get(b.getId());
-			buyProduct.remove(idship);
-
-			Product productToModify = product.remove(p.getId());
-			
-			Scanner reader = new Scanner(System.in);
-			
-			System.out.print("Insert quantity of product to buy: ");
-			int buyQuantity = reader.nextInt();
-			
-			productToModify.setQuantity(productToModify.getQuantity() + buyQuantity);
-			product.put(p.getId(), productToModify);
-			reader.close();
-			
-			if (shipProduct.isEmpty() && !buyProduct.isEmpty())
-				writeOperations(buyProduct,"BUY",false);
-			else
-				writeOperations(shipProduct,"SHIP",false);
-				if(!buyProduct.isEmpty()) {
-					writeOperations(buyProduct,"BUY",true);
-				}
-
-			writeFile();
 		}
 	}
 	
