@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"it.unipr.zezacracolici","l":"Admin"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"it.unipr.zezacracolici","l":"Client"},{"p":"it.unipr.zezacracolici","l":"Employee"},{"p":"it.unipr.zezacracolici","l":"Main"},{"p":"it.unipr.zezacracolici","l":"Person"},{"p":"it.unipr.zezacracolici","l":"Product"}];updateSearchResults();
