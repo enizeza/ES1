@@ -37,7 +37,6 @@ public class Admin extends Employee
 	
 	private Map<Integer, Product> productMap = new HashMap<Integer, Product>();
 	private Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
-	private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
 	
 	
 	private void readFile(){
@@ -78,12 +77,7 @@ public class Admin extends Employee
 				strproduct = fproducts.readUTF();
 				prodData = strproduct.split(",");
 				Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));				
-				if (prodData[0].equals("SHIP")) {
-					shipProduct.put(Integer.parseInt(prodData[2]),appo);
-				}
-				else if (prodData[0].equals("BUY")){
-					buyProduct.put(Integer.parseInt(prodData[2]),appo);
-				}
+				shipProduct.put(Integer.parseInt(prodData[2]),appo);
 			}
 		}
 		catch(EOFException e) {
@@ -92,10 +86,10 @@ public class Admin extends Employee
 		}
 	}
 	
-	private void writeOperations(Map<Integer, Product> operations, String what, boolean mod) throws IOException{
+	private void writeOperations(Map<Integer, Product> operations, String what) throws IOException{
 		DataOutputStream fProdOut = null;
 		try {
-	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, mod)));
+	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
 	        for (Product value : operations.values()) {
 	        	fProdOut.writeUTF(value.operationsToString(what));
 	        }
@@ -174,15 +168,6 @@ public class Admin extends Employee
 			finally {
 				fOut.close();
 			}
-			
-			DataOutputStream fProdOut = null;
-			try {
-		        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, true)));
-		        fProdOut.writeUTF(newProduct.operationsToString("BUY"));
-			}
-			finally {
-				fProdOut.close();
-			}
 		}		
     }
     
@@ -213,14 +198,7 @@ public class Admin extends Employee
 			if (test1 != null) {
 				shipProduct.remove(id);
 			} 
-			
-			Product test2 = buyProduct.get(id);
-			if (test2 != null) {
-				buyProduct.remove(id);
-			} 
-			
-			writeOperations(shipProduct,"SHIP",false);
-			writeOperations(buyProduct,"BUY",true);
+			writeOperations(shipProduct,"SHIP");
 		}
     }
 }

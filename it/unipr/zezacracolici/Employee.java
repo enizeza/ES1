@@ -16,9 +16,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * Employee is a subclass of client. It has some privileges more than Client.
@@ -34,8 +35,9 @@ public class Employee extends Client
 {
 
 	private Map<Integer, Product> product = new HashMap<Integer, Product>();
-	private Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
-	private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
+	//private Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
+	//private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
+	private List<Product> shipProduct = new ArrayList<Product>();
 	
 	private static final String PRODUCTFILE = "product.csv";
 	private static final String OPERATIONS = "operations.csv";
@@ -74,18 +76,11 @@ public class Employee extends Client
 		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
 			String strproduct;
 			String[] prodData;
-			int n = 1;
 			while(true) {
 				strproduct = fproducts.readUTF();
 				prodData = strproduct.split(",");
 				Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));				
-				if (prodData[0].equals("SHIP")) {
-					shipProduct.put(n,appo);
-				}
-				else if (prodData[0].equals("BUY")){
-					buyProduct.put(n,appo);
-				}
-				n = n+1;
+				shipProduct.add(appo);
 			}
 		}
 		catch(EOFException e) {
@@ -94,11 +89,11 @@ public class Employee extends Client
 		}
 	}
 	
-	private void writeOperations(Map<Integer, Product> operations, String what, boolean mod) throws IOException{
+	private void writeOperations(List<Product> operations, String what) throws IOException{
 		DataOutputStream fProdOut = null;
 		try {
-	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, mod)));
-	        for (Product value : operations.values()) {
+	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, false)));
+	        for (Product value : shipProduct) {
 	        	fProdOut.writeUTF(value.operationsToString(what));
 	        }
 	        
@@ -129,56 +124,38 @@ public class Employee extends Client
 	}
 	
 	/**
-     * This method ship/buy the products that are written into OPERATIONS.
+     * This method ship the products that are written into OPERATIONS.
      * Updating the quantity of product available in PRODUCTFILE
      * Removing from OPERATIONS the operation done
      * 
-     * @param idship id of the operations to do
+     * @param idship id of the ship
      * 
      * @throws IOException input output
      * 
      * @since 1.0
      */
-	public void operationsProduct(int idship) throws IOException{
+	public void shipProduct(int idship) throws IOException{
 		readOperations();
 		readFile();
 		
-		Product i = shipProduct.get(idship);
-		if (i == null) {
+		int index = idship-1;
+		
+		if (index >= shipProduct.size() || index < 0) {
 			System.out.println("ID OPERATION doesn't exists!!!");
-		} else {
-			Product p = product.get(i.getId());
-			int quantity = i.getQuantity();
-			if (p.getQuantity() < quantity) {
+		}
+		else {
+			Product p = shipProduct.get(index);
+			int quantity = p.getQuantity();	
+			if (p.getQuantity() > product.get(p.getId()).getQuantity()) {
 				System.out.println("Can't ship now try later not enough product in warehouse buy it!!");
 			} else {
-				shipProduct.remove(idship);
+				shipProduct.remove(index);
 				Product productToModify = product.remove(p.getId());
 				
 				productToModify.setQuantity(productToModify.getQuantity() - quantity);
 				product.put(p.getId(), productToModify);
-				Product ship = product.get(p.getId());
-				
-				if(ship.getQuantity()==0) {
-					System.out.println("Product "+ship.getName_product()+" run out in warehouse");
-					Product appo = new Product(ship.getName_product(),ship.getId(),ship.getName_factory(),ship.getPrice(),0);
-					buyProduct.put(0,appo);
-				}	
-				
-				/*if (shipProduct.isEmpty() && !buyProduct.isEmpty())
-					writeOperations(buyProduct,"BUY",false);
-				else
-					writeOperations(shipProduct,"SHIP",false);
-					if(!buyProduct.isEmpty()) {
-						writeOperations(buyProduct,"BUY",true);
-					}*/
-				/*writeOperations(shipProduct,"SHIP",false);
-				writeOperations(buyProduct,"BUY",true);*/
-				
-				//writeFile();
-				
-				writeOperations(shipProduct,"SHIP",false);
-				writeOperations(buyProduct,"BUY",true);
+						
+				writeOperations(shipProduct,"SHIP");
 				
 				writeFile();
 			}
@@ -198,18 +175,19 @@ public class Employee extends Client
 	public void buyProductEmployee(int idBuy, int buyQuantity) throws IOException{
 		readFile();
 		
-		if (buyQuantity < 0) {
-			System.out.println("Quantity < 0!!!");
-		}
-		
 		Product p = product.get(idBuy);
 		if (p == null) {
 			System.out.println("Product doesn't exist");
 		} else {
-			Product productToModify = product.remove(p.getId());
-			
-			productToModify.setQuantity(productToModify.getQuantity() + buyQuantity);
-			product.put(p.getId(), productToModify);
+			if (buyQuantity < 0) {
+				System.out.println("Quantity < 0!!!");
+			}
+			else {
+				Product productToModify = product.remove(p.getId());
+				
+				productToModify.setQuantity(productToModify.getQuantity() + buyQuantity);
+				product.put(p.getId(), productToModify);
+			}
 		}
 		
 		writeFile();
@@ -222,11 +200,12 @@ public class Employee extends Client
      */
 	
 	public void routine() {
+		readFile();
 		File fControl = new File(OPERATIONS);
 		int n = 1;
 		if (fControl.exists()) {
-			System.out.println("*******Operations to carry out*******");
-			System.out.println("NUm_OPERATION_ID TYPE,NAME,ID,FACTORY,PRICE,QUANTITY");
+			System.out.println("**************Orders to carry out**************\n");
+			System.out.println("NUM_OPERATION_ID TYPE,NAME,ID,FACTORY,PRICE,QUANTITY\n");
 			try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
 				while(true) {
 					System.out.println(n + " " + fproducts.readUTF());
@@ -238,8 +217,16 @@ public class Employee extends Client
 			catch(IOException e) {
 				e.printStackTrace();
 			}
+
 		}else {
-			System.out.println("*******No operations to be performed*******");
+			System.out.println("**************No Orders to be performed**************\n");
+		}
+		
+		System.out.println("**************Products to buy**************\n");
+		for (Product value : product.values()) {
+		    if (value.getQuantity() == 0) {
+		    	System.out.println("Product "+ value.toString()+" run out in warehouse");
+		    }
 		}
 	}
 
