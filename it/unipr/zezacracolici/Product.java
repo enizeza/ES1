@@ -4,8 +4,8 @@ package it.unipr.zezacracolici;
  * Product is in charge of saving a product object with its properties.
  * Each product has a name_product, id, name_factory, price and quantity.
  * 
- * @author   enize
- * @author   leocraco
+ * @author   Eni Zeza 308966
+ * @author   Leonardo Cracolici 306798
  * 
  * @version  1.0
  * @since    1.0

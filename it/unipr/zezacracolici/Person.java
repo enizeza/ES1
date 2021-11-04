@@ -16,8 +16,8 @@ import java.io.IOException;
  * Person is in charge of saving a person object with its properties.
  * Each person has an username and a password.
  * 
- * @author   enize
- * @author   leocraco
+ * @author   Eni Zeza 308966
+ * @author   Leonardo Cracolici 306798
  * 
  * @version  1.0
  * @since    1.0

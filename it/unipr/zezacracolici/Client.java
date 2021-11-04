@@ -23,8 +23,8 @@ import java.util.Map;
 /**
  * Client is a subclass of person. It has some privileges more than Person.
  * 
- * @author   enize
- * @author   leocraco
+ * @author   Eni Zeza 308966
+ * @author   Leonardo Cracolici 306798
  * 
  * @version  1.0
  * @since    1.0
@@ -118,19 +118,23 @@ public class Client extends Person
 		File fControl = new File(PRODUCTFILE);
 		if(fControl.exists()) {
 			readFile();
-			Product product1 = product.get(idProduct);
-			if (number > product1.getQuantity()){
-				System.out.println("Too many products requested!! Currently available: "+ product1.getQuantity());
-			}
-			else {
-				DataOutputStream fProdOut = null;
-				try {
-			        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, true)));
-			        product1.setQuantity(number);
-			        fProdOut.writeUTF(product1.operationsToString("SHIP"));
+			Product p = product.get(idProduct);
+			if(p == null) {
+				System.out.println("Product doesn't exist");
+			} else {
+				if (number > p.getQuantity()){
+					System.out.println("Too many products requested!! Currently available: "+ p.getQuantity());
 				}
-				finally {
-					fProdOut.close();
+				else {
+					DataOutputStream fProdOut = null;
+					try {
+				        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, true)));
+				        p.setQuantity(number);
+				        fProdOut.writeUTF(p.operationsToString("SHIP"));
+					}
+					finally {
+						fProdOut.close();
+					}
 				}
 			}
 		}else {

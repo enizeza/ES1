@@ -24,8 +24,8 @@ import java.util.Map;
 /**
  * Employee is a subclass of client. It has some privileges more than Client.
  * 
- * @author   enize
- * @author   leocraco
+ * @author   Eni Zeza 308966
+ * @author   Leonardo Cracolici 306798
  * 
  * @version  1.0
  * @since    1.0
@@ -44,6 +44,7 @@ public class Employee extends Client
 		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(PRODUCTFILE)))){
 			String strproduct;
 			String[] prodData;
+			product.clear();
 			while(true) {
 				strproduct = fproducts.readUTF();
 				prodData = strproduct.split(",");
@@ -192,7 +193,7 @@ public class Employee extends Client
 	}
 	
 	/**
-     * This method prints the operation to do reading them from OPERATIONS
+     * This method prints the operation to do, reading them from OPERATIONS and it prints the list of the products to buy
      * 
      * @since 1.0
      */

@@ -23,8 +23,8 @@ import java.util.Map;
 /**
  * Admin is a subclass of employee. It has some privileges more than Employee.
  * 
- * @author   enize
- * @author   leocraco
+ * @author   Eni Zeza 308966
+ * @author   Leonardo Cracolici 306798
  * 
  * @version  1.0
  * @since    1.0
@@ -142,7 +142,6 @@ public class Admin extends Employee
     
     /**
      * This method add a new Product into the file PRODUCTFILE.
-     * Add to file OPERATIONS, the operation to buy quantities of the new product
      * 
      * @param newProduct the product to add
      * 

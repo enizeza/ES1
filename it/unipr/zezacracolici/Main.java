@@ -21,8 +21,8 @@ import java.util.Scanner;
  * Here we are testing, running all the application.
  * and doing all the interaction with the console
  * 
- * @author   enize
- * @author   leocraco
+ * @author   Eni Zeza 308966
+ * @author   Leonardo Cracolici 306798
  * 
  * @version  1.0
  * @since    1.0
