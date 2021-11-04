@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Employee is a subclass of client. It has some privileges more than Client.
@@ -177,11 +178,6 @@ public class Employee extends Client
 				
 				writeFile();
 			}
-			/*writeOperations(shipProduct,"SHIP",false);
-			if (shipProduct.isEmpty())
-				writeOperations(buyProduct,"BUY",false);
-			else
-				writeOperations(buyProduct,"BUY",true);*/
 			
 		}
 			
@@ -191,14 +187,14 @@ public class Employee extends Client
 
 			Product productToModify = product.remove(p.getId());
 			
-			productToModify.setQuantity(productToModify.getQuantity() + 10);
+			Scanner reader = new Scanner(System.in);
+			
+			System.out.print("Insert quantity of product to buy: ");
+			int buyQuantity = reader.nextInt();
+			
+			productToModify.setQuantity(productToModify.getQuantity() + buyQuantity);
 			product.put(p.getId(), productToModify);
-		
-			/*writeOperations(shipProduct,"SHIP",false);
-			if (shipProduct.isEmpty())
-				writeOperations(buyProduct,"BUY",false);
-			else
-				writeOperations(buyProduct,"BUY",true);*/
+			reader.close();
 			
 			if (shipProduct.isEmpty() && !buyProduct.isEmpty())
 				writeOperations(buyProduct,"BUY",false);
@@ -239,40 +235,6 @@ public class Employee extends Client
 			product.put(p.getId(), productToModify);
 		}
 		
-		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
-			String strproduct;
-			String[] prodData;
-			while(true) {
-				strproduct = fproducts.readUTF();
-				prodData = strproduct.split(",");
-			Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));				
-			if (prodData[0].equals("SHIP")) {
-				shipProduct.put(Integer.parseInt(prodData[2]),appo);
-			}
-			else if (prodData[0].equals("BUY")){
-					buyProduct.put(Integer.parseInt(prodData[2]),appo);
-				}
-			}
-		}
-		catch(EOFException e) {
-		}
-		catch(IOException e) {
-		}
-		
-		Product test = buyProduct.get(idBuy);
-		if (test != null) {
-			buyProduct.remove(idBuy);
-		} 
-		
-
-		if (shipProduct.isEmpty() && !buyProduct.isEmpty())
-			writeOperations(buyProduct,"BUY",false);
-		else
-			writeOperations(shipProduct,"SHIP",false);
-			if(!buyProduct.isEmpty()) {
-				writeOperations(buyProduct,"BUY",true);
-			}
-
 		writeFile();
 	}
 	
