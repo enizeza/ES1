@@ -220,8 +220,8 @@ public class Main {
 									break;
 								case 1:
 									System.out.print("Insert ID operation: ");
-									int shipId = reader.nextInt();
-									logEmployee.operationsProduct(shipId);
+									int operationId = reader.nextInt();
+									logEmployee.operationsProduct(operationId);
 									break;
 								case 2:
 									System.out.print("Insert ID product: ");
@@ -283,8 +283,8 @@ public class Main {
 
 							case 4:
 								System.out.print("Insert ID operation: ");
-								int shipId = reader.nextInt();
-								admin.operationsProduct(shipId);
+								int operationId = reader.nextInt();
+								admin.operationsProduct(operationId);
 								break;
 							case 5:
 								System.out.print("Insert ID product: ");

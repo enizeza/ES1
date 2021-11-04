@@ -149,54 +149,64 @@ public class Employee extends Client
 		} 
 		if (i != null) {
 			Product p = product.get(i.getId());
-			if (p == null) {
-				System.out.println("Product doesn't exist");
-				shipProduct.remove(idship);
-				writeOperations(shipProduct,"SHIP",false);
-				writeOperations(buyProduct,"BUY",true);
-			} else {
 				int quantity = i.getQuantity();
 				if (p.getQuantity() < quantity) {
 					System.out.println("Can't ship now try later not enough product in warehouse buy it!!");
-				}
-				else {
-					shipProduct.remove(idship);
-					Product productToModify = product.remove(p.getId());
-					
-					productToModify.setQuantity(productToModify.getQuantity() - quantity);
-					product.put(p.getId(), productToModify);
-					Product ship = product.get(p.getId());
-					
-					if(ship.getQuantity()==0) {
-						System.out.println("Product "+ship.getName_product()+" run out in warehouse");
-						Product appo = new Product(ship.getName_product(),ship.getId(),ship.getName_factory(),ship.getPrice(),0);
-						buyProduct.put(0,appo);
-					}	
-				}
 			}
-			writeOperations(shipProduct,"SHIP",false);
-			writeOperations(buyProduct,"BUY",true);
-			
-			writeFile();
-		}
-		else {
-			Product p = product.get(b.getId());
-			if (p == null) {
-				buyProduct.remove(idship);
-				writeOperations(shipProduct,"SHIP",false);
-				writeOperations(buyProduct,"BUY",true);
-				System.out.println("Product doesn't exist");	
-			} else {
-				buyProduct.remove(idship);
-				/*p.setQuantity(p.getQuantity()+10);
-				product.replace(p.getId(), p);*/
+			else {
+				shipProduct.remove(idship);
 				Product productToModify = product.remove(p.getId());
 				
-				productToModify.setQuantity(productToModify.getQuantity() + 10);
+				productToModify.setQuantity(productToModify.getQuantity() - quantity);
 				product.put(p.getId(), productToModify);
+				Product ship = product.get(p.getId());
+				
+				if(ship.getQuantity()==0) {
+					System.out.println("Product "+ship.getName_product()+" run out in warehouse");
+					Product appo = new Product(ship.getName_product(),ship.getId(),ship.getName_factory(),ship.getPrice(),0);
+					buyProduct.put(0,appo);
+				}	
+				
+				if (shipProduct.isEmpty() && !buyProduct.isEmpty())
+					writeOperations(buyProduct,"BUY",false);
+				else
+					writeOperations(shipProduct,"SHIP",false);
+					if(!buyProduct.isEmpty()) {
+						writeOperations(buyProduct,"BUY",true);
+					}
+				
+				writeFile();
 			}
-			writeOperations(shipProduct,"SHIP",false);
-			writeOperations(buyProduct,"BUY",true);
+			/*writeOperations(shipProduct,"SHIP",false);
+			if (shipProduct.isEmpty())
+				writeOperations(buyProduct,"BUY",false);
+			else
+				writeOperations(buyProduct,"BUY",true);*/
+			
+		}
+			
+		if (b != null) {
+			Product p = product.get(b.getId());
+			buyProduct.remove(idship);
+
+			Product productToModify = product.remove(p.getId());
+			
+			productToModify.setQuantity(productToModify.getQuantity() + 10);
+			product.put(p.getId(), productToModify);
+		
+			/*writeOperations(shipProduct,"SHIP",false);
+			if (shipProduct.isEmpty())
+				writeOperations(buyProduct,"BUY",false);
+			else
+				writeOperations(buyProduct,"BUY",true);*/
+			
+			if (shipProduct.isEmpty() && !buyProduct.isEmpty())
+				writeOperations(buyProduct,"BUY",false);
+			else
+				writeOperations(shipProduct,"SHIP",false);
+				if(!buyProduct.isEmpty()) {
+					writeOperations(buyProduct,"BUY",true);
+				}
 
 			writeFile();
 		}
@@ -213,37 +223,56 @@ public class Employee extends Client
      * @since 1.0
      */
 	public void buyProductEmployee(int idBuy, int buyQuantity) throws IOException{
-		readOperations();
 		readFile();
 		
 		if (buyQuantity < 0) {
 			System.out.println("Quantity < 0!!!");
 		}
 		
-		//Product i = buyProduct.get(idBuy);
-		//if (i == null) {
-			//System.out.println("ID OPERATION doesn't exists!!!");
-		//} else {
-			//Product p = product.get(i.getId());
-			Product p = product.get(idBuy);
-			if (p == null) {
-				System.out.println("Product doesn't exist");
-				//buyProduct.remove(idBuy);
-				//writeOperations(shipProduct,"SHIP",false);
-				//writeOperations(buyProduct,"BUY",true);
-			} else {
-				/*buyProduct.remove(idBuy);
-				p.setQuantity(p.getQuantity()+buyQuantity);
-				product.replace(p.getId(), p);*/
-				Product productToModify = product.remove(p.getId());
-				
-				productToModify.setQuantity(productToModify.getQuantity() + buyQuantity);
-				product.put(p.getId(), productToModify);
-			}
-		//}
-		//writeOperations(shipProduct,"SHIP",false);
-		//writeOperations(buyProduct,"BUY",true);
+		Product p = product.get(idBuy);
+		if (p == null) {
+			System.out.println("Product doesn't exist");
+		} else {
+			Product productToModify = product.remove(p.getId());
+			
+			productToModify.setQuantity(productToModify.getQuantity() + buyQuantity);
+			product.put(p.getId(), productToModify);
+		}
 		
+		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
+			String strproduct;
+			String[] prodData;
+			while(true) {
+				strproduct = fproducts.readUTF();
+				prodData = strproduct.split(",");
+			Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));				
+			if (prodData[0].equals("SHIP")) {
+				shipProduct.put(Integer.parseInt(prodData[2]),appo);
+			}
+			else if (prodData[0].equals("BUY")){
+					buyProduct.put(Integer.parseInt(prodData[2]),appo);
+				}
+			}
+		}
+		catch(EOFException e) {
+		}
+		catch(IOException e) {
+		}
+		
+		Product test = buyProduct.get(idBuy);
+		if (test != null) {
+			buyProduct.remove(idBuy);
+		} 
+		
+
+		if (shipProduct.isEmpty() && !buyProduct.isEmpty())
+			writeOperations(buyProduct,"BUY",false);
+		else
+			writeOperations(shipProduct,"SHIP",false);
+			if(!buyProduct.isEmpty()) {
+				writeOperations(buyProduct,"BUY",true);
+			}
+
 		writeFile();
 	}
 	

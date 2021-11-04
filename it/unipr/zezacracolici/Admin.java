@@ -36,6 +36,8 @@ public class Admin extends Employee
 	private static final String OPERATIONS = "operations.csv";
 	
 	private Map<Integer, Product> productMap = new HashMap<Integer, Product>();
+	private Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
+	private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
 	
 	
 	private void readFile(){
@@ -62,6 +64,42 @@ public class Admin extends Employee
 	        for(Product element : productMap.values()) {
 	        	fProdOut.writeUTF(element.toString());
 	        }
+		}
+		finally {
+			fProdOut.close();
+		}
+	}
+	
+	private void readOperations() {
+		try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
+			String strproduct;
+			String[] prodData;
+			while(true) {
+				strproduct = fproducts.readUTF();
+				prodData = strproduct.split(",");
+				Product appo = new Product(prodData[1],Integer.parseInt(prodData[2]),prodData[3],Double.parseDouble(prodData[4]),Integer.parseInt(prodData[5]));				
+				if (prodData[0].equals("SHIP")) {
+					shipProduct.put(Integer.parseInt(prodData[2]),appo);
+				}
+				else if (prodData[0].equals("BUY")){
+					buyProduct.put(Integer.parseInt(prodData[2]),appo);
+				}
+			}
+		}
+		catch(EOFException e) {
+		}
+		catch(IOException e) {
+		}
+	}
+	
+	private void writeOperations(Map<Integer, Product> operations, String what, boolean mod) throws IOException{
+		DataOutputStream fProdOut = null;
+		try {
+	        fProdOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(OPERATIONS, mod)));
+	        for (Product value : operations.values()) {
+	        	fProdOut.writeUTF(value.operationsToString(what));
+	        }
+	        
 		}
 		finally {
 			fProdOut.close();
@@ -169,7 +207,20 @@ public class Admin extends Employee
 		} else {
 			productMap.remove(id);
 			writeFile();
+			readOperations();
+			
+			Product test1 = shipProduct.get(id);
+			if (test1 != null) {
+				shipProduct.remove(id);
+			} 
+			
+			Product test2 = buyProduct.get(id);
+			if (test2 != null) {
+				buyProduct.remove(id);
+			} 
+			
+			writeOperations(shipProduct,"SHIP",false);
+			writeOperations(buyProduct,"BUY",true);
 		}
     }
-
 }
