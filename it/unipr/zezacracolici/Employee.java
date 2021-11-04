@@ -35,7 +35,6 @@ public class Employee extends Client
 	private Map<Integer, Product> product = new HashMap<Integer, Product>();
 	private Map<Integer, Product> shipProduct = new HashMap<Integer, Product>();
 	private Map<Integer, Product> buyProduct = new HashMap<Integer, Product>();
-	//private Map<Integer, Product> operations = new HashMap<Integer, Product>();
 	
 	private static final String PRODUCTFILE = "product.csv";
 	private static final String OPERATIONS = "operations.csv";
@@ -92,7 +91,6 @@ public class Employee extends Client
 		}
 		catch(IOException e) {
 		}
-		System.out.println(buyProduct);
 	}
 	
 	private void writeOperations(Map<Integer, Product> operations, String what, boolean mod) throws IOException{
@@ -130,46 +128,77 @@ public class Employee extends Client
 	}
 	
 	/**
-     * This method ship the products that the client bought.
+     * This method ship/buy the products that are written into OPERATIONS.
      * Updating the quantity of product available in PRODUCTFILE
-     * Removing from OPERATIONS the operation of shipping
+     * Removing from OPERATIONS the operation done
      * 
-     * @param idship id of the product to ship
+     * @param idship id of the operations to do
      * 
      * @throws IOException input output
      * 
      * @since 1.0
      */
-	public void shipProduct(int idship) throws IOException{
+	public void operationsProduct(int idship) throws IOException{
 		readOperations();
 		readFile();
 		
 		Product i = shipProduct.get(idship);
-		if (i == null) {
-			System.out.println("No products to ship");
-		} else {
+		Product b = buyProduct.get(idship);
+		if (i == null && b == null) {
+			System.out.println("ID OPERATION doesn't exists!!!");
+		} 
+		if (i != null) {
 			Product p = product.get(i.getId());
 			if (p == null) {
-				System.out.println("Product doesn't exist anymore");
-			} else {
+				System.out.println("Product doesn't exist");
 				shipProduct.remove(idship);
-				Product productToModify = product.remove(p.getId());
-				int quantity = i.getQuantity();
-				
-				productToModify.setQuantity(productToModify.getQuantity()-quantity);
-				product.put(p.getId(), productToModify);
-				
-				Product ship = product.get(p.getId());
-				if(ship.getQuantity()==0) {
-					System.out.println("Product "+ship.getName_product()+" run out in warehouse");
-					Product appo = new Product(ship.getName_product(),ship.getId(),ship.getName_factory(),ship.getPrice(),0);
-					buyProduct.put(0,appo);
-				}
 				writeOperations(shipProduct,"SHIP",false);
 				writeOperations(buyProduct,"BUY",true);
-				
-				writeFile();
+			} else {
+				int quantity = i.getQuantity();
+				if (p.getQuantity() < quantity) {
+					System.out.println("Can't ship now try later not enough product in warehouse buy it!!");
+				}
+				else {
+					shipProduct.remove(idship);
+					Product productToModify = product.remove(p.getId());
+					
+					productToModify.setQuantity(productToModify.getQuantity() - quantity);
+					product.put(p.getId(), productToModify);
+					Product ship = product.get(p.getId());
+					
+					if(ship.getQuantity()==0) {
+						System.out.println("Product "+ship.getName_product()+" run out in warehouse");
+						Product appo = new Product(ship.getName_product(),ship.getId(),ship.getName_factory(),ship.getPrice(),0);
+						buyProduct.put(0,appo);
+					}	
+				}
 			}
+			writeOperations(shipProduct,"SHIP",false);
+			writeOperations(buyProduct,"BUY",true);
+			
+			writeFile();
+		}
+		else {
+			Product p = product.get(b.getId());
+			if (p == null) {
+				buyProduct.remove(idship);
+				writeOperations(shipProduct,"SHIP",false);
+				writeOperations(buyProduct,"BUY",true);
+				System.out.println("Product doesn't exist");	
+			} else {
+				buyProduct.remove(idship);
+				/*p.setQuantity(p.getQuantity()+10);
+				product.replace(p.getId(), p);*/
+				Product productToModify = product.remove(p.getId());
+				
+				productToModify.setQuantity(productToModify.getQuantity() + 10);
+				product.put(p.getId(), productToModify);
+			}
+			writeOperations(shipProduct,"SHIP",false);
+			writeOperations(buyProduct,"BUY",true);
+
+			writeFile();
 		}
 	}
 	
@@ -187,21 +216,33 @@ public class Employee extends Client
 		readOperations();
 		readFile();
 		
-		Product i = buyProduct.get(idBuy);
-		if (i == null) {
-			System.out.println("No products to buy");
-		} else {
-			Product p = product.get(i.getId());
-			if (p == null) {
-				System.out.println("Nonexistent product");
-			} else {
-				buyProduct.remove(idBuy);
-				p.setQuantity(p.getQuantity()+buyQuantity);
-				product.replace(p.getId(), p);
-			}
+		if (buyQuantity < 0) {
+			System.out.println("Quantity < 0!!!");
 		}
-		writeOperations(shipProduct,"SHIP",false);
-		writeOperations(buyProduct,"BUY",true);
+		
+		//Product i = buyProduct.get(idBuy);
+		//if (i == null) {
+			//System.out.println("ID OPERATION doesn't exists!!!");
+		//} else {
+			//Product p = product.get(i.getId());
+			Product p = product.get(idBuy);
+			if (p == null) {
+				System.out.println("Product doesn't exist");
+				//buyProduct.remove(idBuy);
+				//writeOperations(shipProduct,"SHIP",false);
+				//writeOperations(buyProduct,"BUY",true);
+			} else {
+				/*buyProduct.remove(idBuy);
+				p.setQuantity(p.getQuantity()+buyQuantity);
+				product.replace(p.getId(), p);*/
+				Product productToModify = product.remove(p.getId());
+				
+				productToModify.setQuantity(productToModify.getQuantity() + buyQuantity);
+				product.put(p.getId(), productToModify);
+			}
+		//}
+		//writeOperations(shipProduct,"SHIP",false);
+		//writeOperations(buyProduct,"BUY",true);
 		
 		writeFile();
 	}
@@ -217,7 +258,7 @@ public class Employee extends Client
 		int n = 1;
 		if (fControl.exists()) {
 			System.out.println("*******Operations to carry out*******");
-			System.out.println("TYPE,NAME,ID,FACTORY,PRICE,QUANTITY");
+			System.out.println("NUm_OPERATION_ID TYPE,NAME,ID,FACTORY,PRICE,QUANTITY");
 			try (DataInputStream fproducts = new DataInputStream(new BufferedInputStream(new FileInputStream(OPERATIONS)))){
 				while(true) {
 					System.out.println(n + " " + fproducts.readUTF());

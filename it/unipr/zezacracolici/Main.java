@@ -213,7 +213,7 @@ public class Main {
 						do {
 							System.out.println("\n*******EMPLOYEE*******\n");
 							logEmployee.routine();
-							System.out.println("\n0:Quit\n1:ship product\n2:buy products warehouse\n3:search products");
+							System.out.println("\n0:Quit\n1:operations product\n2:buy products warehouse\n3:search products");
 							menuEmployee = reader.nextInt();
 							switch(menuEmployee) {
 								case 0:
@@ -221,10 +221,10 @@ public class Main {
 								case 1:
 									System.out.print("Insert ID operation: ");
 									int shipId = reader.nextInt();
-									logEmployee.shipProduct(shipId);
+									logEmployee.operationsProduct(shipId);
 									break;
 								case 2:
-									System.out.print("Insert ID operation: ");
+									System.out.print("Insert ID product: ");
 									int buyId = reader.nextInt();
 									System.out.print("Insert quantity of product to buy: ");
 									int buyQuantity = reader.nextInt();
@@ -251,7 +251,7 @@ public class Main {
 						do {
 							System.out.println("\n*******ADMIN*******\n");
 							admin.routine();
-							System.out.println("\n0:Quit\n1:add employee\n2:add product\n3:remove product\n4:ship product\n5:buy products warehouse\n6:search products");
+							System.out.println("\n0:Quit\n1:add employee\n2:add product\n3:remove product\n4:operations product\n5:buy products warehouse\n6:search products");
 							menuAdmin = reader.nextInt();
 							switch(menuAdmin) {
 							case 0:
@@ -284,10 +284,10 @@ public class Main {
 							case 4:
 								System.out.print("Insert ID operation: ");
 								int shipId = reader.nextInt();
-								admin.shipProduct(shipId);
+								admin.operationsProduct(shipId);
 								break;
 							case 5:
-								System.out.print("Insert ID operation: ");
+								System.out.print("Insert ID product: ");
 								int buyId = reader.nextInt();
 								System.out.print("Insert quantity of product to buy: ");
 								int buyQuantity = reader.nextInt();
